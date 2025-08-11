@@ -18,9 +18,12 @@ try:
     from briefing import generate_daily_brief
     from credentials_manager import get_email_credentials, manage_credentials
     from email_summarizer import format_email_display, generate_email_summary
+<<<<<<< HEAD
     from smart_summarizer_v3 import SmartSummarizerV3, summarize_message
     from context_loader import ContextLoader
     from feedback_system import FeedbackCollector, FeedbackEnhancedSummarizer
+=======
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
     
     # Create a wrapper function for load_emails to maintain compatibility
     def load_emails():
@@ -64,6 +67,7 @@ st.markdown("""
 .confidence-medium { background-color: #fff3e6; }
 .confidence-low { background-color: #ffe6e6; }
 
+<<<<<<< HEAD
 .smartbrief-card {
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -83,6 +87,8 @@ st.markdown("""
 .intent-social { border-left-color: #00b894; }
 .intent-informational { border-left-color: #74b9ff; }
 
+=======
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
 /* Fix for white text on white background */
 .stMarkdown, .stText, .stDataFrame {
     color: #333333 !important;
@@ -106,10 +112,13 @@ if 'filter_tag' not in st.session_state:
     st.session_state.filter_tag = 'ALL'
 if 'sort_by' not in st.session_state:
     st.session_state.sort_by = 'Priority Score'
+<<<<<<< HEAD
 if 'demo_mode' not in st.session_state:
     st.session_state.demo_mode = 'email_processing'
 if 'smartbrief_results' not in st.session_state:
     st.session_state.smartbrief_results = []
+=======
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
 
 # Simple Priority Tagger class (inline implementation)
 class SimplePriorityTagger:
@@ -350,6 +359,7 @@ class SimpleSmartSuggestionsModule:
         return action_responses.get(action, {'success': False, 'message': 'Action not implemented'})
 
 # Initialize components
+<<<<<<< HEAD
 @st.cache_data
 def initialize_components():
     """Initialize all AI components and fetch emails from Gmail."""
@@ -385,6 +395,17 @@ def initialize_components():
 
 
 
+=======
+@st.cache(allow_output_mutation=True)
+def initialize_components():
+    """Initialize all AI components."""
+    return {
+        'prioritizer': Prioritizer(),
+        'tagger': SimplePriorityTagger(),
+        'suggestions': SimpleSmartSuggestionsModule()
+    }
+
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
 components = initialize_components()
 
 # Function to clean text for display and TTS
@@ -400,6 +421,7 @@ def clean_text_for_summary(text):
     text = re.sub(r'\s+', ' ', text)
     return text.strip()
 
+<<<<<<< HEAD
 def display_smartbrief_result(message, result, index):
     """Display a SmartBrief analysis result."""
     with st.container():
@@ -607,11 +629,66 @@ if demo_mode == "Email Processing":
 # Processing options
 st.sidebar.subheader("🎛️ Processing Options")
 show_reasoning = st.sidebar.checkbox("Show Analysis Reasoning", value=True)
+=======
+# Sidebar Configuration
+st.sidebar.title("🤖 Smart Inbox Settings")
+
+# Email source selection
+email_source = st.sidebar.radio(
+    "Email Source",
+    ["Live Email", "Mock Emails", "CSV File"],
+    help="Select your email source"
+)
+
+# Live email credentials
+if email_source == "Live Email":
+    if st.sidebar.button("🔐 Setup Email Credentials"):
+        st.session_state.show_credentials_setup = True
+    
+    if st.session_state.get('show_credentials_setup', False):
+        with st.sidebar.expander("Email Credentials Setup", expanded=True):
+            email_address = st.text_input("Email Address")
+            app_password = st.text_input("App Password", type="password")
+            provider = st.selectbox("Provider", ["gmail", "outlook", "yahoo"])
+            
+            if st.button("Save Credentials"):
+                if email_address and app_password:
+                    # This would integrate with the credentials manager
+                    st.success("Credentials saved! Please restart the app.")
+                    st.session_state.show_credentials_setup = False
+                else:
+                    st.error("Please fill in all fields")
+
+# CSV file upload option
+if email_source == "CSV File":
+    uploaded_file = st.sidebar.file_uploader(
+        "Upload CSV file with emails",
+        type=['csv'],
+        help="CSV should have columns: subject, sender, body, date"
+    )
+
+# Filters and sorting
+st.sidebar.subheader("📊 Display Options")
+st.session_state.filter_tag = st.sidebar.selectbox(
+    "Filter by Tag",
+    ['ALL', 'URGENT', 'MEETING', 'FINANCIAL', 'IMPORTANT', 'PROMOTIONAL', 'NEWSLETTER', 'SECURITY', 'GENERAL']
+)
+
+st.session_state.sort_by = st.sidebar.selectbox(
+    "Sort by",
+    ['Priority Score', 'Confidence', 'Date', 'Sender']
+)
+
+# Processing options
+st.sidebar.subheader("🎛️ Processing Options")
+show_reasoning = st.sidebar.checkbox("Show Tag Reasoning", value=True)
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
 show_suggestions = st.sidebar.checkbox("Show Smart Suggestions", value=True)
 auto_play_tts = st.sidebar.checkbox("Auto-play TTS for high priority", value=False)
 
 # Main title
 st.title("📬 Smart Inbox Assistant")
+<<<<<<< HEAD
 st.markdown("*Unified Email Processing & SmartBrief v3 Analysis with Reinforcement Learning*")
 
 # Main content based on selected mode
@@ -1688,12 +1765,464 @@ elif demo_mode == "Performance Test":
             col1.metric("States Learned", rl_stats['total_states'])
             col2.metric("Total Episodes", rl_stats['total_episodes'])
             col3.metric("Avg Reward", f"{rl_stats['avg_reward']:.2f}")
+=======
+st.markdown("*From Summary to Action: Priority Tagging + Feedback Learning Loop*")
+
+# Email loading section
+col1, col2, col3 = st.columns([2, 1, 1])
+
+with col1:
+    if st.button("🔄 Load & Process Emails"):
+        with st.spinner("Loading and processing emails..."):
+            try:
+                # Load emails based on source
+                if email_source == "Live Email":
+                    # Try to get saved credentials
+                    try:
+                        credentials = get_email_credentials()
+                        if credentials:
+                            email_reader = EmailReader(use_mock=False)
+                            if email_reader.connect_imap(credentials['email_address'], credentials['password']):
+                                emails_df = email_reader.load_emails(
+                                    email_address=credentials['email_address'],
+                                    password=credentials['password'],
+                                    limit=10
+                                )
+                                email_reader.close_connection()
+                                st.success(f"✅ Loaded {len(emails_df)} emails from {credentials['email_address']}")
+                            else:
+                                st.error("❌ Failed to connect to email server")
+                                emails_df = load_emails()
+                        else:
+                            st.warning("⚠️ No saved credentials found. Using mock emails.")
+                            emails_df = load_emails()
+                    except Exception as e:
+                        st.error(f"❌ Error connecting to email: {e}")
+                        emails_df = load_emails()
+                        
+                elif email_source == "CSV File" and uploaded_file is not None:
+                    # Load from uploaded CSV
+                    emails_df = pd.read_csv(uploaded_file)
+                    # Ensure required columns exist
+                    required_cols = ['subject', 'sender', 'body', 'date']
+                    for col in required_cols:
+                        if col not in emails_df.columns:
+                            emails_df[col] = f'Unknown {col}'
+                    st.success(f"✅ Loaded {len(emails_df)} emails from CSV")
+                else:
+                    # Load mock emails
+                    emails_df = load_emails()
+                    st.success(f"✅ Loaded {len(emails_df)} emails")
+                
+                # Process each email
+                processed_emails = []
+                
+                progress_bar = st.progress(0)
+                for idx, (_, email_row) in enumerate(emails_df.iterrows()):
+                    email_dict = email_row.to_dict()
+                    
+                    # Format email for display (add subject if missing, generate summary)
+                    email_dict = format_email_display(email_dict)
+                    
+                    # Extract metrics
+                    body = email_dict.get('body', '')
+                    subject = email_dict.get('subject', 'No Subject')
+                    full_text = f"{subject} {body}"
+                    
+                    # AI Analysis
+                    metrics = extract_email_metrics(full_text)
+                    sentiment_score = analyze_sentiment(body)
+                    
+                    # Priority tagging
+                    tag_result = components['tagger'].tag_email(email_dict)
+                    
+                    # Priority scoring
+                    enriched_email = {
+                        **email_dict,
+                        'sentiment_score': sentiment_score,
+                        'metrics': metrics,
+                        'tag': tag_result['tag'],
+                        'tag_confidence': tag_result['confidence'],
+                        'tag_reasoning': tag_result['reasoning'],
+                        'all_scores': tag_result['all_scores'],
+                        'features_detected': tag_result['features_detected']
+                    }
+                    
+                    processed_emails.append(enriched_email)
+                    progress_bar.progress((idx + 1) / len(emails_df))
+                
+                # Prioritize using the existing system
+                prioritized_emails = components['prioritizer'].prioritize_emails(processed_emails)
+                
+                # Store in session state
+                st.session_state.processed_emails = [(score, email) for score, email in prioritized_emails]
+                st.session_state.emails_processed = True
+                st.session_state.current_page = 0  # Reset to first page
+                
+                st.success(f"✅ Successfully processed {len(processed_emails)} emails!")
+                
+            except Exception as e:
+                st.error(f"Error processing emails: {e}")
+                st.error(f"Error details: {str(e)}")
+
+with col2:
+    if st.button("📄 Generate Brief"):
+        if st.session_state.emails_processed:
+            top_emails = [email for _, email in st.session_state.processed_emails[:10]]
+            
+            # Add required fields for briefing
+            for i, email in enumerate(top_emails):
+                email['priority_level'] = 'HIGH' if i < 3 else 'MEDIUM' if i < 7 else 'LOW'
+                email['priority_score'] = st.session_state.processed_emails[i][0]
+                email['read_status'] = 'unread'
+                email['message_type'] = email.get('metrics', {}).get('intent', 'general')
+                email['timestamp'] = email.get('date', datetime.now())
+                
+                # Key points
+                key_points = []
+                if email.get('metrics', {}).get('has_deadline'):
+                    key_points.append("⏰ Contains deadline")
+                if email.get('metrics', {}).get('urgency') == 'high':
+                    key_points.append("🔥 High urgency")
+                if email.get('tag') == 'URGENT':
+                    key_points.append("🚨 Tagged as urgent")
+                if email.get('sentiment_score', 0) < -0.1:
+                    key_points.append("😟 Negative sentiment")
+                
+                email['key_points'] = key_points if key_points else ["📧 Standard email"]
+            
+            brief = generate_daily_brief(top_emails)
+            
+            st.text_area("Daily Brief", brief, height=20)
+            
+            if st.button("🔊 Read Brief Aloud"):
+                read_text(brief)
+        else:
+            st.warning("Please process emails first")
+
+with col3:
+    if st.button("🛑 Stop Speech"):
+        stop_speech()
+        st.success("Speech stopped")
+
+# Main content area
+if st.session_state.emails_processed:
+    
+    # Statistics dashboard
+    st.subheader("📊 Email Analytics Dashboard")
+    
+    # Create metrics
+    total_emails = len(st.session_state.processed_emails)
+    tag_counts = {}
+    confidence_levels = {'High': 0, 'Medium': 0, 'Low': 0}
+    
+    for score, email in st.session_state.processed_emails:
+        tag = email.get('tag', 'GENERAL')
+        tag_counts[tag] = tag_counts.get(tag, 0) + 1
+        
+        confidence = email.get('tag_confidence', 0)
+        if confidence > 0.7:
+            confidence_levels['High'] += 1
+        elif confidence > 0.4:
+            confidence_levels['Medium'] += 1
+        else:
+            confidence_levels['Low'] += 1
+    
+    # Display metrics
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric("Total Emails", total_emails)
+    col2.metric("Urgent Emails", tag_counts.get('URGENT', 0))
+    col3.metric("High Confidence", confidence_levels['High'])
+    if total_emails > 0:
+        avg_score = sum(score for score, _ in st.session_state.processed_emails) / total_emails
+        col4.metric("Avg Priority Score", f"{avg_score:.2f}")
+    else:
+        col4.metric("Avg Priority Score", "0.00")
+    
+    # Charts
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        if tag_counts:
+            # Tag distribution
+            fig_tags = px.pie(
+                values=list(tag_counts.values()),
+                names=list(tag_counts.keys()),
+                title="Email Distribution by Tag"
+            )
+            st.plotly_chart(fig_tags, use_container_width=True)
+    
+    with col2:
+        # Confidence levels
+        fig_conf = px.bar(
+            x=list(confidence_levels.keys()),
+            y=list(confidence_levels.values()),
+            title="Tagging Confidence Levels",
+            color=list(confidence_levels.values()),
+            color_continuous_scale="RdYlGn"
+        )
+        st.plotly_chart(fig_conf, use_container_width=True)
+    
+    # Filter and sort emails
+    filtered_emails = st.session_state.processed_emails
+    
+    if st.session_state.filter_tag != 'ALL':
+        filtered_emails = [(score, email) for score, email in filtered_emails 
+                          if str(email.get('tag', 'GENERAL')).upper() == st.session_state.filter_tag.upper()]
+    
+    # Sort emails
+    if st.session_state.sort_by == 'Priority Score':
+        filtered_emails.sort(key=lambda x: x[0], reverse=True)
+    elif st.session_state.sort_by == 'Confidence':
+        filtered_emails.sort(key=lambda x: x[1].get('tag_confidence', 0), reverse=True)
+    elif st.session_state.sort_by == 'Date':
+        filtered_emails.sort(key=lambda x: x[1].get('date', datetime.now()), reverse=True)
+    elif st.session_state.sort_by == 'Sender':
+        filtered_emails.sort(key=lambda x: x[1].get('sender', ''))
+    
+    # Pagination
+    EMAILS_PER_PAGE = 10  # Increased for better visibility
+    total_pages = max(1, (len(filtered_emails) + EMAILS_PER_PAGE - 1) // EMAILS_PER_PAGE)
+    
+    # Ensure current page is valid
+    if st.session_state.current_page >= total_pages:
+        st.session_state.current_page = max(0, total_pages - 1)
+
+    # Top Pagination Controls
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col1:
+        if st.session_state.current_page > 0:
+            if st.button("⬅️ Previous", key="prev_top_btn"):
+                st.session_state.current_page -= 1
+                st.rerun()
+    with col2:
+        st.write(f"Page {st.session_state.current_page + 1} of {total_pages} ({len(filtered_emails)} total emails)")
+    with col3:
+        if st.session_state.current_page < total_pages - 1:
+            if st.button("Next ➡️", key="next_top_btn"):
+                st.session_state.current_page += 1
+                st.rerun()
+
+    # Display emails
+    start_idx = st.session_state.current_page * EMAILS_PER_PAGE
+    end_idx = min(start_idx + EMAILS_PER_PAGE, len(filtered_emails))
+    page_emails = filtered_emails[start_idx:end_idx]
+
+    st.subheader(f"📧 Emails ({start_idx + 1}-{end_idx} of {len(filtered_emails)})")
+
+    # Email display loop - THIS WAS THE MISSING PART
+    for email_idx, (priority_score, email) in enumerate(page_emails):
+        email_id = email.get('id', f'email_{start_idx + email_idx}')
+        subject = email.get('subject', 'No Subject')
+        sender = email.get('sender', 'Unknown Sender')
+        body = email.get('body', 'No body provided.')
+        tag = email.get('tag', 'GENERAL')
+        confidence = email.get('tag_confidence', 0.0)
+        
+        # Determine confidence class
+        conf_class = 'high' if confidence > 0.7 else 'medium' if confidence > 0.4 else 'low'
+        
+        # Create email card
+        with st.container():
+            # Sanitize sender email to prevent InvalidCharacterError
+            display_sender = sender.replace('@', ' (at) ') if isinstance(sender, str) else str(sender)
+            
+            st.markdown(f"""
+            <div class="email-card {tag.lower()} confidence-{conf_class}">
+                <h4>📧 {subject}</h4>
+                <p><strong>From:</strong> {display_sender}</p>
+                <p><strong>Priority Score:</strong> {priority_score:.2f} | <strong>Tag:</strong> {tag} | <strong>Confidence:</strong> {confidence:.1%}</p>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Email summary
+            summary = email.get('summary', '')
+            if not summary:
+                # Generate summary if not available
+                summary = generate_email_summary(email)
+            
+            st.markdown(f"<div style='color: #333333; font-weight: 500; background-color: #f5f5f5; padding: 10px; border-radius: 5px;'><strong>Summary:</strong> {summary}</div>", unsafe_allow_html=True)
+            
+            # Show reasoning if enabled
+            if show_reasoning:
+                reasoning = email.get('tag_reasoning', [])
+                if reasoning:
+                    st.markdown(f"<div style='color: #333333; font-weight: 500; background-color: #fff0f5; padding: 8px; border-radius: 5px; margin-top: 5px;'><strong>Tagging Reasoning:</strong> {', '.join(reasoning)}</div>", unsafe_allow_html=True)
+            
+            # Features detected
+            features = email.get('features_detected', {})
+            if features:
+                feature_text = []
+                if features.get('time_urgency', 0) > 0:
+                    feature_text.append(f"⏰ Time urgency: {features['time_urgency']:.1f}")
+                if features.get('has_attachments'):
+                    feature_text.append("📎 Has attachments")
+                feature_text.append(f"📝 {features.get('word_count', 0)} words")
+                
+                if feature_text:
+                    st.markdown(f"<div style='color: #333333; font-weight: 500; background-color: #f0f7ff; padding: 8px; border-radius: 5px; margin-top: 5px;'><strong>Features:</strong> {' | '.join(feature_text)}</div>", unsafe_allow_html=True)
+            
+            # Action buttons
+            col1, col2, col3, col4, col5 = st.columns(5)
+            
+            with col1:
+                # Sanitize key for button to prevent InvalidCharacterError
+                button_key = f"read_{email_id}_{start_idx + email_idx}".replace('@', '_at_').replace('.', '_dot_')
+                if st.button(f"🔊 Read", key=button_key):
+                    tts_body = clean_text_for_summary(body)
+                    read_text(f"Email from {display_sender}. Subject: {subject}. {tts_body}")
+            
+            with col2:
+                # Tag correction
+                safe_email_id = str(email_id).replace('@', '_at_').replace('.', '_dot_')
+                tag_key = f"tag_{safe_email_id}_{start_idx + email_idx}"
+                new_tag = st.selectbox(
+                    "Correct Tag",
+                    ['URGENT', 'MEETING', 'FINANCIAL', 'IMPORTANT', 'PROMOTIONAL', 'NEWSLETTER', 'SECURITY', 'GENERAL'],
+                    index=['URGENT', 'MEETING', 'FINANCIAL', 'IMPORTANT', 'PROMOTIONAL', 'NEWSLETTER', 'SECURITY', 'GENERAL'].index(tag),
+                    key=tag_key
+                )
+                
+                if new_tag != tag:
+                    update_key = f"update_tag_{safe_email_id}_{start_idx + email_idx}"
+                    if st.button(f"✅ Update", key=update_key):
+                        components['tagger'].process_feedback(email_id, new_tag, tag, sender)
+                        st.success(f"Tag updated from {tag} to {new_tag}")
+                        # Update the email in session state
+                        for i, (score, em) in enumerate(st.session_state.processed_emails):
+                            if em.get('id') == email_id:
+                                st.session_state.processed_emails[i] = (score, {**em, 'tag': new_tag})
+                                break
+                        st.rerun()
+            
+            with col3:
+                # Feedback buttons
+                safe_email_id = str(email_id).replace('@', '_at_').replace('.', '_dot_')
+                good_key = f"good_{safe_email_id}_{start_idx + email_idx}"
+                if st.button(f"👍 Good", key=good_key):
+                    components['tagger'].process_feedback(email_id, tag, tag, sender)
+                    st.success("Positive feedback recorded!")
+            
+            with col4:
+                # Summary feedback
+                st.write("Summary helpful?")
+                col4a, col4b = st.columns(2)
+                safe_email_id = str(email_id).replace('@', '_at_').replace('.', '_dot_')
+                
+                with col4a:
+                    helpful_key = f"summary_good_{safe_email_id}_{start_idx + email_idx}"
+                    if st.button(f"👍", key=helpful_key):
+                        components['tagger'].process_feedback(email_id, tag, tag, sender, feedback_quality=1.0)
+                        st.success("✅")
+                
+                with col4b:
+                    not_helpful_key = f"summary_bad_{safe_email_id}_{start_idx + email_idx}"
+                    if st.button(f"👎", key=not_helpful_key):
+                        components['tagger'].process_feedback(email_id, tag, tag, sender, feedback_quality=-1.0)
+                        st.success("❌")
+            
+            # Smart suggestions
+            if show_suggestions:
+                with col5:
+                    safe_email_id = str(email_id).replace('@', '_at_').replace('.', '_dot_')
+                    suggest_key = f"suggest_{safe_email_id}_{start_idx + email_idx}"
+                    if st.button(f"💡 Actions", key=suggest_key):
+                        suggestions = components['suggestions'].generate_suggestions(email, tag, confidence)
+                        
+                        st.write("**Smart Suggestions:**")
+                        for i, suggestion in enumerate(suggestions[:3]):
+                            suggestion_text = suggestion['text']
+                            suggestion_time = suggestion.get('estimated_time', '')
+                            suggestion_confidence = suggestion.get('confidence', 0)
+                            
+                            time_text = f" (⏱️ {suggestion_time})" if suggestion_time else ""
+                            confidence_text = f" ({int(suggestion_confidence * 100)}%)" if suggestion_confidence else ""
+                            
+                            col_a, col_b = st.columns([3, 1])
+                            with col_a:
+                                st.write(f"• {suggestion_text}{time_text}{confidence_text}")
+                            with col_b:
+                                exec_key = f"exec_{safe_email_id}_{start_idx + email_idx}_{i}"
+                                if st.button(f"Execute", key=exec_key):
+                                    result = components['suggestions'].execute_suggestion(email, suggestion['action'])
+                                    if result['success']:
+                                        st.success(result['message'])
+                                    else:
+                                        st.error(result['message'])
+            
+            st.markdown("---")
+    
+    # Bottom Pagination Controls
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col1:
+        if st.session_state.current_page > 0:
+            if st.button("⬅️ Previous", key="prev_bottom_btn"):
+                st.session_state.current_page -= 1
+                st.rerun()
+    
+    with col2:
+        st.write(f"Page {st.session_state.current_page + 1} of {total_pages}")
+    
+    with col3:
+        if st.session_state.current_page < total_pages - 1:
+            if st.button("Next ➡️", key="next_bottom_btn"):
+                st.session_state.current_page += 1
+                st.rerun()
+    
+    # Analytics section
+    st.markdown("---")
+    st.subheader("💡 Learning Analytics")
+    
+    # Load and display feedback stats
+    if os.path.exists('tagging_feedback.json'):
+        with open('tagging_feedback.json', 'r') as f:
+            feedback_data = json.load(f)
+        
+        col1, col2, col3 = st.columns(3)
+        
+        corrections = feedback_data.get('tag_corrections', {})
+        sender_prefs = feedback_data.get('sender_preferences', {})
+        
+        col1.metric("Total Corrections", len(corrections))
+        col2.metric("Learned Senders", len(sender_prefs))
+        
+        if corrections:
+            recent_corrections = list(corrections.values())[-5:]
+            accuracy_scores = [c.get('quality', 0) for c in recent_corrections]
+            if accuracy_scores:
+                avg_quality = sum(accuracy_scores) / len(accuracy_scores)
+                col3.metric("Recent Quality", f"{avg_quality:.1f}")
+        
+        # Show recent improvements
+        improvements = components['tagger'].suggest_tag_improvements()
+        if improvements:
+            st.write("**Suggested Improvements:**")
+            for improvement in improvements[:3]:
+                st.write(f"• {improvement}")
+    
+    # Show smart suggestion usage if available
+    suggestion_stats = components['suggestions'].usage_stats
+    if suggestion_stats.get('user_preferences'):
+        st.subheader("📈 Action Usage Statistics")
+        
+        action_counts = suggestion_stats['user_preferences']
+        if action_counts:
+            # Create a simple bar chart of most used actions
+            action_data = [{"Action": action.replace('_', ' ').title(), "Count": count} 
+                          for action, count in sorted(action_counts.items(), 
+                                                    key=lambda x: x[1], 
+                                                    reverse=True)]
+            if action_data:
+                df_actions = pd.DataFrame(action_data)
+                st.bar_chart(df_actions.set_index("Action"))
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
 
 else:
     # Welcome screen
     st.markdown("""
     ## Welcome to Smart Inbox Assistant! 🎉
     
+<<<<<<< HEAD
     This unified intelligent email management system combines traditional email processing with advanced SmartBrief v3 analysis:
     
     ### 📧 **Email Processing Mode**
@@ -1733,10 +2262,34 @@ else:
     - Platform-specific optimization
     - Intent classification (8+ categories)
     - Urgency analysis with confidence scoring
+=======
+    This intelligent email management system will help you:
+    
+    ### 🎯 **Priority Tagging**
+    - Automatically categorize emails (Urgent, Meeting, Financial, etc.)
+    - Learn from your feedback to improve accuracy
+    - Show confidence levels and reasoning for each tag
+    
+    ### 🤖 **Smart Suggestions**
+    - Get contextual action suggestions for each email
+    - Quick reply templates and calendar integration
+    - Time estimates for each suggested action
+    
+    ### 🧠 **Adaptive Learning**
+    - System learns from your tag corrections
+    - Builds sender preferences over time
+    - Improves prioritization based on your feedback
+    
+    ### 🔊 **Accessibility Features**
+    - Text-to-speech for email content
+    - Voice briefings for daily summaries
+    - Audio feedback for high-priority items
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
     
     ---
     
     **Getting Started:**
+<<<<<<< HEAD
     1. Choose your mode from the sidebar
     2. Configure processing options
     3. Start processing emails or messages
@@ -1744,6 +2297,14 @@ else:
     5. Monitor learning progress in analytics
     
     Ready to revolutionize your inbox management with AI? Let's get started! 🚀
+=======
+    1. Choose your email source in the sidebar
+    2. Configure display and processing options
+    3. Click "Load & Process Emails" to begin
+    4. Provide feedback to improve the system
+    
+    Ready to revolutionize your inbox management? Let's get started! 🚀
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
     """)
     
     # Quick stats if available
@@ -1763,6 +2324,7 @@ else:
             col3.metric("Learning Sessions", len(set(c.get('timestamp', '')[:10] for c in corrections.values())))
         except Exception as e:
             st.info("No learning data available yet. Start processing emails to build your personalized assistant!")
+<<<<<<< HEAD
     
     # Show SmartBrief stats if available
     smartbrief_stats = components['smartbrief'].get_stats()
@@ -1783,13 +2345,22 @@ else:
         col1.metric("RL States", rl_stats['total_states'])
         col2.metric("Learning Episodes", rl_stats['total_episodes'])
         col3.metric("Average Reward", f"{rl_stats['avg_reward']:.2f}")
+=======
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
 
 # Footer
 st.markdown("---")
 st.markdown("""
 <div style='text-align: center; color: #666;'>
+<<<<<<< HEAD
     <p>Smart Inbox Assistant v3.0 | Unified Email Processing & SmartBrief Analysis</p>
     <p>🧠 Powered by Reinforcement Learning • 🤖 Enhanced with Context-Aware AI</p>
     <p>💡 Tip: Regular feedback helps both systems learn your preferences better!</p>
 </div>
 """, unsafe_allow_html=True)
+=======
+    <p>Smart Inbox Assistant v2.0 | Powered by AI Priority Tagging & Feedback Learning</p>
+    <p>💡 Tip: Regular feedback helps the system learn your preferences better!</p>
+</div>
+""", unsafe_allow_html=True)
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e

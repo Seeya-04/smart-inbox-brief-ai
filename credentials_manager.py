@@ -87,12 +87,15 @@ def setup_email_credentials():
     """Interactive setup for email credentials."""
     print("🔐 Email Credentials Setup")
     print("=" * 40)
+<<<<<<< HEAD
     print("📧 For Gmail users:")
     print("   1. Enable 2-Factor Authentication")
     print("   2. Generate an App Password (not your regular password)")
     print("   3. Use the App Password here")
     print("   4. Guide: https://support.google.com/accounts/answer/185833")
     print()
+=======
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
     
     credentials_manager = CredentialsManager()
     
@@ -110,12 +113,17 @@ def setup_email_credentials():
     # Get new credentials
     print("\n📧 Enter your email credentials:")
     email_address = input("Email address: ").strip()
+<<<<<<< HEAD
     password = getpass.getpass("App password (not regular password): ")
+=======
+    password = getpass.getpass("App password: ")
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
     provider = input("Email provider (gmail/outlook/yahoo): ").strip().lower()
     
     if not provider:
         provider = 'gmail'
     
+<<<<<<< HEAD
     # Validate email format
     if '@' not in email_address:
         print("❌ Invalid email address format")
@@ -129,6 +137,11 @@ def setup_email_credentials():
     if credentials_manager.save_credentials(email_address, password, provider):
         print("✅ Credentials saved successfully!")
         print("💡 Tip: If connection fails, make sure you're using an App Password, not your regular password")
+=======
+    # Save credentials
+    if credentials_manager.save_credentials(email_address, password, provider):
+        print("✅ Credentials saved successfully!")
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
         return {
             'email_address': email_address,
             'password': password,
@@ -200,4 +213,8 @@ if __name__ == "__main__":
     if credentials:
         print(f"✅ Successfully loaded credentials for {credentials['email_address']}")
     else:
+<<<<<<< HEAD
         print("❌ No credentials available")
+=======
+        print("❌ No credentials available") 
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e

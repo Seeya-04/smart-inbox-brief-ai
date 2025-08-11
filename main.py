@@ -318,6 +318,7 @@ def main():
                             
                             quality_text = "Very confident" if quality_choice == 1 else "Somewhat confident" if quality_choice == 2 else "Not sure"
                             print(f"✅ Feedback recorded: {current_tag} → {new_tag} (Quality: {quality_text})")
+<<<<<<< HEAD
                             
                             # Also collect feedback for the summarization system
                             try:
@@ -344,6 +345,8 @@ def main():
                             except Exception as fb_error:
                                 print(f"⚠️ Could not record summarization feedback: {fb_error}")
                                 
+=======
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
                         except ValueError:
                             # If invalid input, use default quality
                             tagger.process_feedback(email_id, new_tag, current_tag, sender, feedback_quality=1.0)
@@ -379,6 +382,7 @@ def main():
             
             print()
             
+<<<<<<< HEAD
             # Feedback system stats
             try:
                 from feedback_system import FeedbackCollector
@@ -405,6 +409,8 @@ def main():
                 print(f"⚠️ Could not load feedback statistics: {e}")
                 print()
             
+=======
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
             # Sender insights with feedback quality metrics
             sender_insights = tagger.get_sender_insights()
             print("Sender Insights:")
@@ -526,7 +532,11 @@ def main():
         elif choice == '9':
             # Exit
             print("\n👋 Thank you for using Smart Inbox Assistant!")
+<<<<<<< HEAD
             break
 
 if __name__ == "__main__":
     main()
+=======
+            break
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e

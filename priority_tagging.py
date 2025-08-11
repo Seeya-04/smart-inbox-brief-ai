@@ -477,3 +477,58 @@ class PriorityTagger:
             stats['correction_rate'] = stats['total_corrections'] / stats['total_emails_tagged']
         
         return stats
+<<<<<<< HEAD
+=======
+
+
+# Usage example and testing
+if __name__ == "__main__":
+    # Test the priority tagger
+    tagger = PriorityTagger()
+    
+    # Test emails
+    test_emails = [
+        {
+            'id': 'test_001',
+            'subject': 'URGENT: Server maintenance tonight',
+            'body': 'We need to perform emergency server maintenance tonight. Please complete all work by 6 PM.',
+            'sender': 'ops-team@company.com'
+        },
+        {
+            'id': 'test_002', 
+            'subject': 'Weekly team meeting - Tomorrow 2 PM',
+            'body': 'Don\'t forget about our weekly team meeting tomorrow at 2 PM in conference room B.',
+            'sender': 'manager@company.com'
+        },
+        {
+            'id': 'test_003',
+            'subject': '🎉 50% OFF Everything - Limited Time!',
+            'body': 'Get 50% off everything in our store this weekend only! Use code SAVE50.',
+            'sender': 'deals@store.com'
+        }
+    ]
+    
+    print("Testing Priority Tagging System")
+    print("=" * 50)
+    
+    for email in test_emails:
+        result = tagger.tag_email(email)
+        print(f"\nEmail: {email['subject']}")
+        print(f"Tag: {result['tag']} (Confidence: {result['confidence']:.2f})")
+        print(f"Reasoning: {', '.join(result['reasoning'])}")
+        print(f"All scores: {result['all_scores']}")
+    
+    # Test feedback
+    print("\n" + "=" * 50)
+    print("Testing Feedback System")
+    tagger.process_feedback('test_001', 'URGENT', 'URGENT', 'ops-team@company.com')
+    tagger.process_feedback('test_002', 'MEETING', 'IMPORTANT', 'manager@company.com')
+    
+    # Get insights
+    insights = tagger.get_sender_insights()
+    print(f"Sender insights: {insights}")
+    
+    # Get stats
+    stats = tagger.get_tagging_stats()
+    print(f"Tagging stats: {stats}")
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e

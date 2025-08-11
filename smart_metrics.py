@@ -221,3 +221,27 @@ def extract_email_metrics(text):
         "word_count": len(text.split()) if text else 0,
         "char_count": len(text) if text else 0
     }
+<<<<<<< HEAD
+=======
+
+
+# Example usage and testing
+if __name__ == "__main__":
+    test_emails = [
+        "Please submit the report by tomorrow! 😃",
+        "Can you help me with this urgent issue ASAP?",
+        "Meeting reminder: Don't forget about our 3 PM meeting today",
+        "FYI: The project status has been updated 📊",
+        "I have a complaint about the service quality 😡"
+    ]
+    
+    print("Testing email metrics extraction:")
+    print("=" * 50)
+    
+    for i, email in enumerate(test_emails, 1):
+        print(f"\nEmail {i}: {email}")
+        metrics = extract_email_metrics(email)
+        for key, value in metrics.items():
+            print(f"  {key}: {value}")
+        print("-" * 30)
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e

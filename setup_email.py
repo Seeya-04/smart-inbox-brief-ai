@@ -50,4 +50,8 @@ def main():
 
 if __name__ == "__main__":
     success = main()
+<<<<<<< HEAD
     sys.exit(0 if success else 1)
+=======
+    sys.exit(0 if success else 1) 
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e

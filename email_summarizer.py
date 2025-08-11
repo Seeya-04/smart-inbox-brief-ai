@@ -88,4 +88,8 @@ def format_email_display(email: Dict) -> Dict:
     summary = generate_email_summary(email)
     email['summary'] = summary
     
+<<<<<<< HEAD
     return email
+=======
+    return email 
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
