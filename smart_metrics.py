@@ -221,6 +221,8 @@ def extract_email_metrics(text):
         "word_count": len(text.split()) if text else 0,
         "char_count": len(text) if text else 0
     }
+<<<<<<< HEAD
+=======
 
 
 # Example usage and testing
@@ -242,3 +244,4 @@ if __name__ == "__main__":
         for key, value in metrics.items():
             print(f"  {key}: {value}")
         print("-" * 30)
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e

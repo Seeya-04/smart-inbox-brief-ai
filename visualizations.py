@@ -1,6 +1,9 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
 import pandas as pd
 import json
 import os
@@ -49,6 +52,8 @@ def create_dashboard(emails_df, brief_summary="", reward_history=None, q_table_f
 
     if save_as_image:
         path = os.path.join(os.getcwd(), "dashboard.png")
+<<<<<<< HEAD
+=======
 =======
 
 def create_dashboard(emails_df, brief_summary, reward_history, auto_open=True, save_as_image=False):
@@ -75,6 +80,7 @@ def create_dashboard(emails_df, brief_summary, reward_history, auto_open=True, s
         from os import getcwd
         path = f"{getcwd()}/dashboard.png"
 >>>>>>> 7a8cf9ef7497fa34b6935d7a358196a26a6b3027
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
         plt.savefig(path)
         print(f"[✔] Saved dashboard as {path}")
 

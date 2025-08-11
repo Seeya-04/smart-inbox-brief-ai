@@ -477,6 +477,8 @@ class PriorityTagger:
             stats['correction_rate'] = stats['total_corrections'] / stats['total_emails_tagged']
         
         return stats
+<<<<<<< HEAD
+=======
 
 
 # Usage example and testing
@@ -529,3 +531,4 @@ if __name__ == "__main__":
     # Get stats
     stats = tagger.get_tagging_stats()
     print(f"Tagging stats: {stats}")
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e

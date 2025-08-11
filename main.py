@@ -318,6 +318,35 @@ def main():
                             
                             quality_text = "Very confident" if quality_choice == 1 else "Somewhat confident" if quality_choice == 2 else "Not sure"
                             print(f"✅ Feedback recorded: {current_tag} → {new_tag} (Quality: {quality_text})")
+<<<<<<< HEAD
+                            
+                            # Also collect feedback for the summarization system
+                            try:
+                                from feedback_system import FeedbackCollector
+                                feedback_collector = FeedbackCollector()
+                                
+                                # Convert quality choice to feedback score
+                                feedback_score = 1 if quality_choice == 1 else 0 if quality_choice == 2 else -1
+                                
+                                feedback_collector.collect_feedback(
+                                    message_id=email_id,
+                                    user_id='main_user',
+                                    platform=email.get('platform', 'email'),
+                                    original_text=email.get('body', ''),
+                                    generated_summary=email.get('summary', ''),
+                                    feedback_score=feedback_score,
+                                    feedback_comment=f"Tag correction: {current_tag} → {new_tag}",
+                                    category_ratings={
+                                        'intent_detection': feedback_score,
+                                        'summary_quality': feedback_score
+                                    }
+                                )
+                                print("📊 Feedback also recorded for summarization system")
+                            except Exception as fb_error:
+                                print(f"⚠️ Could not record summarization feedback: {fb_error}")
+                                
+=======
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
                         except ValueError:
                             # If invalid input, use default quality
                             tagger.process_feedback(email_id, new_tag, current_tag, sender, feedback_quality=1.0)
@@ -353,6 +382,35 @@ def main():
             
             print()
             
+<<<<<<< HEAD
+            # Feedback system stats
+            try:
+                from feedback_system import FeedbackCollector
+                feedback_collector = FeedbackCollector()
+                feedback_analytics = feedback_collector.get_feedback_analytics()
+                
+                print("Feedback System Statistics:")
+                overall_metrics = feedback_analytics.get('overall_metrics', {})
+                print(f"  • Total feedback: {overall_metrics.get('total_feedback', 0)}")
+                print(f"  • Positive feedback: {overall_metrics.get('positive_feedback', 0)}")
+                print(f"  • Negative feedback: {overall_metrics.get('negative_feedback', 0)}")
+                print(f"  • Satisfaction rate: {overall_metrics.get('satisfaction_rate', 0):.1%}")
+                
+                # Platform performance
+                platform_stats = feedback_analytics.get('platform_performance', {})
+                if platform_stats:
+                    print("\nPlatform Performance:")
+                    for platform, stats in platform_stats.items():
+                        satisfaction = stats.get('satisfaction_rate', 0)
+                        print(f"  • {platform}: {satisfaction:.1%} satisfaction")
+                
+                print()
+            except Exception as e:
+                print(f"⚠️ Could not load feedback statistics: {e}")
+                print()
+            
+=======
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
             # Sender insights with feedback quality metrics
             sender_insights = tagger.get_sender_insights()
             print("Sender Insights:")
@@ -474,4 +532,11 @@ def main():
         elif choice == '9':
             # Exit
             print("\n👋 Thank you for using Smart Inbox Assistant!")
+<<<<<<< HEAD
             break
+
+if __name__ == "__main__":
+    main()
+=======
+            break
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e

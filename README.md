@@ -1,3 +1,35 @@
+<<<<<<< HEAD
+# smart box ai
+
+*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+
+[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/seeyas-projects-4db6a42d/v0-smart-box-ai)
+[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/sbA0AsS77yy)
+
+## Overview
+
+This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
+Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+
+## Deployment
+
+Your project is live at:
+
+**[https://vercel.com/seeyas-projects-4db6a42d/v0-smart-box-ai](https://vercel.com/seeyas-projects-4db6a42d/v0-smart-box-ai)**
+
+## Build your app
+
+Continue building your app on:
+
+**[https://v0.dev/chat/projects/sbA0AsS77yy](https://v0.dev/chat/projects/sbA0AsS77yy)**
+
+## How It Works
+
+1. Create and modify your project using [v0.dev](https://v0.dev)
+2. Deploy your chats from the v0 interface
+3. Changes are automatically pushed to this repository
+4. Vercel deploys the latest version from this repository
+=======
 # 📬 Smart Inbox Brief AI
 
 An AI-powered assistant that reads your inbox (in `.json` format), analyzes message content, detects intent, assigns priority using reinforcement learning, and optionally reads it out loud using text-to-speech (TTS).
@@ -181,3 +213,4 @@ If you don't want to set up live email, the app will automatically use mock emai
 This Smart Inbox Assistant successfully implements all the core deliverables from the original specification, providing a comprehensive email management solution with AI-powered prioritization, user feedback learning, and smart action suggestions.
 
 
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e

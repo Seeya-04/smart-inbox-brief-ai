@@ -1,0 +1,81 @@
+{
+  "conversations": {
+    "test_user_0_whatsapp": [
+      {
+        "message_text": "What time should we meet? (Test message 1)",
+        "timestamp": "2025-08-07T14:43:07.943500",
+        "message_id": "perf_test_msg_0"
+      }
+    ],
+    "test_user_1_whatsapp": [
+      {
+        "message_text": "Please review the attached document (Test message 2)",
+        "timestamp": "2025-08-07T14:42:07.943500",
+        "message_id": "perf_test_msg_1"
+      }
+    ],
+    "test_user_2_whatsapp": [
+      {
+        "message_text": "FYI - server maintenance tonight (Test message 3)",
+        "timestamp": "2025-08-07T14:41:07.943500",
+        "message_id": "perf_test_msg_2"
+      }
+    ],
+    "test_user_3_whatsapp": [
+      {
+        "message_text": "Meeting scheduled for tomorrow at 2 PM (Test message 4)",
+        "timestamp": "2025-08-07T14:40:07.943500",
+        "message_id": "perf_test_msg_3"
+      }
+    ],
+    "test_user_4_whatsapp": [
+      {
+        "message_text": "Any updates on the project status? (Test message 5)",
+        "timestamp": "2025-08-07T14:39:07.943500",
+        "message_id": "perf_test_msg_4"
+      }
+    ],
+    "test_user_5_whatsapp": [
+      {
+        "message_text": "Meeting scheduled for tomorrow at 2 PM (Test message 6)",
+        "timestamp": "2025-08-07T14:38:07.943500",
+        "message_id": "perf_test_msg_5"
+      }
+    ],
+    "test_user_6_whatsapp": [
+      {
+        "message_text": "Any updates on the project status? (Test message 7)",
+        "timestamp": "2025-08-07T14:37:07.943500",
+        "message_id": "perf_test_msg_6"
+      }
+    ],
+    "test_user_7_whatsapp": [
+      {
+        "message_text": "Can you help me with this urgent issue? (Test message 8)",
+        "timestamp": "2025-08-07T14:36:07.943500",
+        "message_id": "perf_test_msg_7"
+      }
+    ],
+    "test_user_8_whatsapp": [
+      {
+        "message_text": "What time should we meet? (Test message 9)",
+        "timestamp": "2025-08-07T14:35:07.943500",
+        "message_id": "perf_test_msg_8"
+      }
+    ],
+    "test_user_9_whatsapp": [
+      {
+        "message_text": "What time should we meet? (Test message 10)",
+        "timestamp": "2025-08-07T14:34:07.943500",
+        "message_id": "perf_test_msg_9"
+      }
+    ]
+  },
+  "user_profiles": {},
+  "platform_stats": {},
+  "metadata": {
+    "created": "2025-08-07T14:12:13.152747",
+    "last_updated": "2025-08-11T11:08:08.431816",
+    "version": "3.0"
+  }
+}
