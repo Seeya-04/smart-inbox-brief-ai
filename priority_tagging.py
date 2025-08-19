@@ -264,8 +264,21 @@ class PriorityTagger:
             }
         }
     
+<<<<<<< HEAD
     def process_feedback(self, email_id: str, correct_tag: str, original_tag: str, sender: str, feedback_quality: float = 1.0):
         """Process user feedback for tag correction."""
+=======
+    def process_feedback(self, email_id: str, correct_tag: str, original_tag: str, sender: str, feedback_quality: int = 0):
+        """Process user feedback for tag correction.
+        
+        Args:
+            email_id: Unique identifier for the email
+            correct_tag: The correct tag for the email
+            original_tag: The original tag assigned by the system
+            sender: The email sender
+            feedback_quality: User rating of the tagging quality (1=helpful, -1=not helpful, 0=neutral)
+        """
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         # Store tag correction with quality feedback
         self.feedback_data['tag_corrections'][email_id] = {
             'original_tag': original_tag,
@@ -274,9 +287,41 @@ class PriorityTagger:
             'feedback_quality': feedback_quality
         }
         
+<<<<<<< HEAD
         # Update sender preferences
         if sender:
             self.feedback_data['sender_preferences'][sender] = correct_tag
+=======
+        # Update sender preferences with weighted learning
+        if sender not in self.feedback_data['sender_preferences']:
+            self.feedback_data['sender_preferences'][sender] = {}
+        
+        sender_prefs = self.feedback_data['sender_preferences'][sender]
+        # Ensure sender_prefs is a dictionary
+        if not isinstance(sender_prefs, dict):
+            sender_prefs = {}
+            self.feedback_data['sender_preferences'][sender] = sender_prefs
+        
+        # Ensure correct_tag is a key in the dictionary
+        if correct_tag not in sender_prefs:
+            sender_prefs[correct_tag] = 0
+            
+        # Apply weighted learning based on feedback quality
+        weight = 1.0
+        if feedback_quality > 0:
+            weight = 1.5  # Boost learning for positive feedback
+        elif feedback_quality < 0:
+            weight = 0.5  # Reduce impact for negative feedback
+            
+        sender_prefs[correct_tag] += weight
+        
+        # Find most common tag for this sender
+        if sender_prefs:
+            most_common_tag = max(sender_prefs, key=sender_prefs.get)
+            self.feedback_data['sender_preferences'][sender] = most_common_tag
+        else:
+            self.feedback_data['sender_preferences'][sender] = 'GENERAL'  # Default tag
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         
         # Update confidence with feedback quality consideration
         if email_id in self.confidence_scores:
@@ -284,9 +329,17 @@ class PriorityTagger:
             
             # Adjust confidence based on correction and feedback quality
             if original_tag != correct_tag:
+<<<<<<< HEAD
                 reduction_factor = 0.6 if feedback_quality < 0 else 0.7
                 new_confidence = max(0.1, old_confidence * reduction_factor)
             else:
+=======
+                # Larger reduction for negative feedback
+                reduction_factor = 0.6 if feedback_quality < 0 else 0.7
+                new_confidence = max(0.1, old_confidence * reduction_factor)
+            else:
+                # Larger boost for positive feedback
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                 boost_factor = 1.2 if feedback_quality > 0 else 1.1
                 new_confidence = min(1.0, old_confidence * boost_factor)
             
@@ -296,7 +349,12 @@ class PriorityTagger:
         
         # Save feedback
         self.save_feedback()
+<<<<<<< HEAD
         self.save_confidence_scores()
+=======
+        self.save_confidence_scores()        
+        print(f"✅ Feedback processed: {email_id} corrected from {original_tag} to {correct_tag} with quality {feedback_quality}")
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
     
     def get_sender_insights(self) -> Dict:
         """Get insights about sender patterns and feedback quality."""
@@ -374,6 +432,10 @@ class PriorityTagger:
             # Check feedback quality for this tag
             tag_feedback_quality = insights['feedback_quality_by_tag'].get(most_corrected, 0)
             if tag_feedback_quality < 0:
+<<<<<<< HEAD
+=======
+                # Negative feedback suggests urgent attention needed
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                 suggestions.append(f"⚠️ URGENT: Review '{most_corrected}' tag rules - frequently corrected with negative feedback")
             else:
                 suggestions.append(f"Consider reviewing '{most_corrected}' tag rules - most frequently corrected")
@@ -383,6 +445,10 @@ class PriorityTagger:
                               if conf < 0.6}
         if low_confidence_tags:
             for tag in low_confidence_tags:
+<<<<<<< HEAD
+=======
+                # Check if this tag also has negative feedback
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                 tag_feedback = insights['feedback_quality_by_tag'].get(tag, 0)
                 if tag_feedback < 0:
                     suggestions.append(f"⚠️ '{tag}' tag has low confidence AND negative feedback - priority for improvement")
@@ -400,6 +466,18 @@ class PriorityTagger:
             suggestions.append("⚠️ Overall tagging system needs improvement - less than 50% positive feedback")
         elif overall_quality > 0.8 and insights['total_corrections'] > 10:
             suggestions.append("✅ Tagging system performing well - over 80% positive feedback")
+<<<<<<< HEAD
+=======
+            
+        # Suggest specific tag pattern improvements based on feedback
+        negative_feedback_tags = {tag: quality for tag, quality in insights['feedback_quality_by_tag'].items() 
+                                if quality < 0}
+        if negative_feedback_tags:
+            worst_tag = min(negative_feedback_tags, key=negative_feedback_tags.get)
+            pattern = self.tag_patterns.get(worst_tag, {})
+            if pattern:
+                suggestions.append(f"📝 For '{worst_tag}' tag, consider updating these keywords: {', '.join(pattern.get('keywords', [])[:3])}...")
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         
         return suggestions
     
@@ -429,3 +507,61 @@ class PriorityTagger:
             stats['correction_rate'] = stats['total_corrections'] / stats['total_emails_tagged']
         
         return stats
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+
+# Usage example and testing
+if __name__ == "__main__":
+    # Test the priority tagger
+    tagger = PriorityTagger()
+    
+    # Test emails
+    test_emails = [
+        {
+            'id': 'test_001',
+            'subject': 'URGENT: Server maintenance tonight',
+            'body': 'We need to perform emergency server maintenance tonight. Please complete all work by 6 PM.',
+            'sender': 'ops-team@company.com'
+        },
+        {
+            'id': 'test_002', 
+            'subject': 'Weekly team meeting - Tomorrow 2 PM',
+            'body': 'Don\'t forget about our weekly team meeting tomorrow at 2 PM in conference room B.',
+            'sender': 'manager@company.com'
+        },
+        {
+            'id': 'test_003',
+            'subject': '🎉 50% OFF Everything - Limited Time!',
+            'body': 'Get 50% off everything in our store this weekend only! Use code SAVE50.',
+            'sender': 'deals@store.com'
+        }
+    ]
+    
+    print("Testing Priority Tagging System")
+    print("=" * 50)
+    
+    for email in test_emails:
+        result = tagger.tag_email(email)
+        print(f"\nEmail: {email['subject']}")
+        print(f"Tag: {result['tag']} (Confidence: {result['confidence']:.2f})")
+        print(f"Reasoning: {', '.join(result['reasoning'])}")
+        print(f"All scores: {result['all_scores']}")
+    
+    # Test feedback
+    print("\n" + "=" * 50)
+    print("Testing Feedback System")
+    tagger.process_feedback('test_001', 'URGENT', 'URGENT', 'ops-team@company.com')
+    tagger.process_feedback('test_002', 'MEETING', 'IMPORTANT', 'manager@company.com')
+    
+    # Get insights
+    insights = tagger.get_sender_insights()
+    print(f"Sender insights: {insights}")
+    
+    # Get stats
+    stats = tagger.get_tagging_stats()
+    print(f"Tagging stats: {stats}")
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03

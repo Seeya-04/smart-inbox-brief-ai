@@ -1,6 +1,7 @@
 from textblob import TextBlob
 
 def analyze_sentiment(text):
+<<<<<<< HEAD
     """
     Analyze sentiment of text using TextBlob.
     
@@ -67,3 +68,7 @@ if __name__ == "__main__":
         print(f"Text: {text}")
         print(f"Sentiment: {sentiment['label']} (polarity: {sentiment['polarity']}, confidence: {sentiment['confidence']})")
         print("---")
+=======
+    blob = TextBlob(text)
+    return round(blob.sentiment.polarity, 2)
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03

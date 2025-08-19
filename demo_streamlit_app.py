@@ -13,7 +13,10 @@ import tempfile
 import os
 from smart_summarizer_v3 import SmartSummarizerV3, summarize_message
 from context_loader import ContextLoader
+<<<<<<< HEAD
 from feedback_system import FeedbackCollector
+=======
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
 
 # Page configuration
 st.set_page_config(
@@ -23,6 +26,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+<<<<<<< HEAD
 # Custom CSS - Fixed visibility and styling issues
 st.markdown("""
 <style>
@@ -91,6 +95,23 @@ st.markdown("""
 .stButton > button:hover {
     background-color: #0056b3;
 }
+=======
+# Custom CSS
+st.markdown("""
+<style>
+.metric-card {
+    background-color: #f0f2f6;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border-left: 4px solid #1f77b4;
+}
+.intent-high { border-left-color: #ff4444; }
+.intent-medium { border-left-color: #ffaa44; }
+.intent-low { border-left-color: #44ff44; }
+.platform-whatsapp { background-color: #e8f5e8; }
+.platform-email { background-color: #e8e8f5; }
+.platform-slack { background-color: #f5e8f5; }
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
 </style>
 """, unsafe_allow_html=True)
 
@@ -99,6 +120,7 @@ if 'summarizer' not in st.session_state:
     st.session_state.summarizer = SmartSummarizerV3()
 if 'processed_messages' not in st.session_state:
     st.session_state.processed_messages = []
+<<<<<<< HEAD
 if 'feedback_collector' not in st.session_state:
     st.session_state.feedback_collector = FeedbackCollector()
 if 'context_loader' not in st.session_state:
@@ -118,6 +140,14 @@ def load_sample_messages():
     """Load sample messages for demonstration with different platform styles."""
     return [
         # Email style - formal
+=======
+if 'demo_mode' not in st.session_state:
+    st.session_state.demo_mode = 'single'
+
+def load_sample_messages():
+    """Load sample messages for demonstration."""
+    return [
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         {
             'user_id': 'alice_work',
             'platform': 'email',
@@ -125,6 +155,7 @@ def load_sample_messages():
             'timestamp': '2025-08-07T09:00:00Z',
             'message_id': 'msg_001'
         },
+<<<<<<< HEAD
         # WhatsApp style - casual
         {
             'user_id': 'bob_friend',
@@ -142,6 +173,22 @@ def load_sample_messages():
             'message_id': 'msg_003'
         },
         # Slack style - work urgent
+=======
+        {
+            'user_id': 'bob_friend',
+            'platform': 'whatsapp',
+            'message_text': 'Hey! What time is the party tonight? Should I bring anything?',
+            'timestamp': '2025-08-07T14:30:00Z',
+            'message_id': 'msg_002'
+        },
+        {
+            'user_id': 'alice_work',
+            'platform': 'email',
+            'message_text': 'Following up on the budget proposal - any updates? The board meeting is tomorrow!',
+            'timestamp': '2025-08-07T16:45:00Z',
+            'message_id': 'msg_003'
+        },
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         {
             'user_id': 'customer_support',
             'platform': 'slack',
@@ -149,6 +196,7 @@ def load_sample_messages():
             'timestamp': '2025-08-07T11:15:00Z',
             'message_id': 'msg_004'
         },
+<<<<<<< HEAD
         # Instagram DM style - casual with emojis
         {
             'user_id': 'fashion_influencer',
@@ -158,6 +206,15 @@ def load_sample_messages():
             'message_id': 'msg_005'
         },
         # Teams style - professional
+=======
+        {
+            'user_id': 'mom_family',
+            'platform': 'whatsapp',
+            'message_text': 'Thanks for helping with the computer setup yesterday! You\'re the best ❤️',
+            'timestamp': '2025-08-07T08:20:00Z',
+            'message_id': 'msg_005'
+        },
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         {
             'user_id': 'project_manager',
             'platform': 'teams',
@@ -165,6 +222,7 @@ def load_sample_messages():
             'timestamp': '2025-08-07T17:10:00Z',
             'message_id': 'msg_006'
         },
+<<<<<<< HEAD
         # WhatsApp follow-up
         {
             'user_id': 'bob_friend',
@@ -194,6 +252,30 @@ def create_analytics_charts(messages, results):
         })
     
     df = pd.DataFrame(combined_data)
+=======
+        {
+            'user_id': 'newsletter_tech',
+            'platform': 'email',
+            'message_text': 'Weekly Tech Digest: AI breakthroughs, new frameworks, and industry trends. Unsubscribe anytime.',
+            'timestamp': '2025-08-07T07:00:00Z',
+            'message_id': 'msg_007'
+        },
+        {
+            'user_id': 'bob_friend',
+            'platform': 'whatsapp',
+            'message_text': 'Did you see my message about the party? Need to know headcount for food!',
+            'timestamp': '2025-08-07T18:00:00Z',
+            'message_id': 'msg_008'
+        }
+    ]
+
+def create_analytics_charts(results):
+    """Create analytics charts from processed results."""
+    if not results:
+        return None, None, None
+    
+    df = pd.DataFrame(results)
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
     
     # Intent distribution
     intent_counts = df['intent'].value_counts()
@@ -225,6 +307,7 @@ def create_analytics_charts(messages, results):
         color_discrete_sequence=px.colors.qualitative.Pastel
     )
     
+<<<<<<< HEAD
     # Message type distribution
     type_counts = df['type'].value_counts()
     fig_types = px.bar(
@@ -239,23 +322,40 @@ def create_analytics_charts(messages, results):
 
 def display_message_result(message, result, index):
     """Display a message and its analysis result with feedback option."""
+=======
+    return fig_intent, fig_urgency, fig_platform
+
+def display_message_result(message, result, index):
+    """Display a message and its analysis result."""
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
     with st.container():
         # Create columns for layout
         col1, col2 = st.columns([2, 1])
         
         with col1:
+<<<<<<< HEAD
             # Message content with better visibility
+=======
+            # Message content
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             st.markdown(f"""
             <div class="metric-card platform-{message['platform']}">
                 <h4>📱 {message['platform'].title()} - {message['user_id']}</h4>
                 <p><strong>Message:</strong> {message['message_text']}</p>
                 <p><strong>Summary:</strong> {result['summary']}</p>
+<<<<<<< HEAD
                 <p><strong>Type:</strong> {result['type'].title()}</p>
+=======
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             </div>
             """, unsafe_allow_html=True)
         
         with col2:
+<<<<<<< HEAD
             # Analysis results with better visibility
+=======
+            # Analysis results
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             urgency_color = {'high': '🔴', 'medium': '🟡', 'low': '🟢'}[result['urgency']]
             
             st.markdown(f"""
@@ -267,6 +367,7 @@ def display_message_result(message, result, index):
             </div>
             """, unsafe_allow_html=True)
         
+<<<<<<< HEAD
         # Expandable reasoning and feedback
         with st.expander(f"🔍 Analysis Details & Feedback - Message {index + 1}"):
             col_details, col_feedback = st.columns([1, 1])
@@ -374,11 +475,32 @@ def get_platform_sample_message(platform):
         'discord': "anyone up for a gaming session tonight? new update dropped!"
     }
     return platform_samples.get(platform, "Enter your message here...")
+=======
+        # Expandable reasoning
+        with st.expander(f"🔍 Analysis Details - Message {index + 1}"):
+            st.write("**Reasoning:**")
+            for reason in result['reasoning']:
+                st.write(f"• {reason}")
+            
+            if result.get('platform_optimized'):
+                st.success("✅ Platform-optimized summary generated")
+            
+            st.json({
+                'intent': result['intent'],
+                'urgency': result['urgency'],
+                'confidence': result['confidence'],
+                'context_used': result['context_used']
+            })
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
 
 # Main app
 def main():
     st.title("🤖 SmartBrief v3 - Interactive Demo")
+<<<<<<< HEAD
     st.markdown("*Context-Aware, Platform-Agnostic Message Summarization with Feedback Loop*")
+=======
+    st.markdown("*Context-Aware, Platform-Agnostic Message Summarization*")
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
     
     # Sidebar
     st.sidebar.title("🎛️ Demo Controls")
@@ -386,7 +508,11 @@ def main():
     # Demo mode selection
     demo_mode = st.sidebar.radio(
         "Select Demo Mode:",
+<<<<<<< HEAD
         ["Single Message", "Batch Processing", "Upload JSON", "Context Analysis", "Feedback Analytics", "Performance Test"],
+=======
+        ["Single Message", "Batch Processing", "Upload JSON", "Context Analysis", "Performance Test"],
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         key="demo_mode_radio"
     )
     
@@ -412,6 +538,7 @@ def main():
             # Input form
             with st.form("single_message_form"):
                 user_id = st.text_input("User ID:", value="demo_user")
+<<<<<<< HEAD
                 
                 platform_options = ['whatsapp', 'email', 'slack', 'teams', 'instagram', 'discord', 'custom']
                 platform = st.selectbox("Platform:", platform_options, key="platform_select")
@@ -490,6 +617,27 @@ def main():
                     st.session_state.current_message = None
                     st.session_state.current_analysis = None
                     st.rerun()
+=======
+                platform = st.selectbox("Platform:", ['whatsapp', 'email', 'slack', 'teams', 'instagram', 'discord'])
+                message_text = st.text_area("Message Text:", 
+                    value="Hey! Can you send me those photos from yesterday? Need them for my Instagram story ASAP!")
+                
+                submitted = st.form_submit_button("🔍 Analyze Message")
+                
+                if submitted and message_text:
+                    message_data = {
+                        'user_id': user_id,
+                        'platform': platform,
+                        'message_text': message_text,
+                        'timestamp': datetime.now().isoformat()
+                    }
+                    
+                    with st.spinner("Analyzing message..."):
+                        result = st.session_state.summarizer.summarize(message_data, use_context=use_context)
+                    
+                    st.success("✅ Analysis Complete!")
+                    display_message_result(message_data, result, 0)
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         
         with col2:
             st.subheader("📊 Quick Stats")
@@ -503,11 +651,14 @@ def main():
                 st.write("**Platform Distribution:**")
                 for platform, count in stats['platforms'].items():
                     st.write(f"• {platform}: {count}")
+<<<<<<< HEAD
             
             if stats['intents']:
                 st.write("**Intent Distribution:**")
                 for intent, count in stats['intents'].items():
                     st.write(f"• {intent}: {count}")
+=======
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
     
     elif demo_mode == "Batch Processing":
         st.header("📦 Batch Message Processing")
@@ -521,11 +672,14 @@ def main():
         
         st.write(f"**Sample Dataset:** {len(sample_messages)} messages")
         
+<<<<<<< HEAD
         # Show sample messages preview
         with st.expander("📋 Preview Sample Messages"):
             for i, msg in enumerate(sample_messages[:3]):
                 st.write(f"**{i+1}. {msg['platform'].title()}** ({msg['user_id']}): {msg['message_text']}")
         
+=======
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         if st.button("🚀 Process All Messages"):
             with st.spinner("Processing messages..."):
                 results = st.session_state.summarizer.batch_summarize(sample_messages, use_context=use_context)
@@ -542,6 +696,7 @@ def main():
                 display_message_result(message, result, i)
                 st.markdown("---")
             
+<<<<<<< HEAD
             # Analytics - Fixed to pass both messages and results
             st.subheader("📊 Analytics Dashboard")
             
@@ -557,6 +712,24 @@ def main():
                 with col2:
                     st.plotly_chart(fig_urgency, use_container_width=True)
                     st.plotly_chart(fig_types, use_container_width=True)
+=======
+            # Analytics
+            st.subheader("📊 Analytics Dashboard")
+            
+            fig_intent, fig_urgency, fig_platform = create_analytics_charts(results)
+            
+            if fig_intent:
+                col1, col2, col3 = st.columns(3)
+                
+                with col1:
+                    st.plotly_chart(fig_intent, use_container_width=True)
+                
+                with col2:
+                    st.plotly_chart(fig_urgency, use_container_width=True)
+                
+                with col3:
+                    st.plotly_chart(fig_platform, use_container_width=True)
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
     
     elif demo_mode == "Upload JSON":
         st.header("📁 Upload Your Own Messages")
@@ -585,8 +758,11 @@ def main():
                     if all(field in msg for field in required_fields):
                         if 'timestamp' not in msg:
                             msg['timestamp'] = datetime.now().isoformat()
+<<<<<<< HEAD
                         if 'message_id' not in msg:
                             msg['message_id'] = f'uploaded_{i}'
+=======
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                         valid_messages.append(msg)
                     else:
                         st.warning(f"Message {i+1} missing required fields: {required_fields}")
@@ -610,6 +786,7 @@ def main():
                             if i < len(valid_messages) - 1:
                                 st.markdown("---")
                         
+<<<<<<< HEAD
                         # Analytics for uploaded messages
                         st.subheader("📊 Analytics Dashboard")
                         fig_intent, fig_urgency, fig_platform, fig_types = create_analytics_charts(valid_messages, results)
@@ -627,6 +804,10 @@ def main():
                         
                         # Download results
                         results_json = json.dumps(results, indent=2, default=str)
+=======
+                        # Download results
+                        results_json = json.dumps(results, indent=2)
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                         st.download_button(
                             label="💾 Download Results (JSON)",
                             data=results_json,
@@ -668,6 +849,7 @@ def main():
         conversation_flow = [
             {
                 'user_id': 'demo_user',
+<<<<<<< HEAD
                 'platform': 'email',
                 'message_text': 'I will send the quarterly report tonight after the meeting.',
                 'timestamp': '2025-08-07T09:00:00Z',
@@ -689,6 +871,29 @@ def main():
                 'timestamp': '2025-08-07T18:00:00Z',
                 'step': 3,
                 'description': 'Urgent escalation'
+=======
+                'platform': 'whatsapp',
+                'message_text': 'Can you send me those vacation photos?',
+                'timestamp': '2025-08-07T10:00:00Z',
+                'step': 1,
+                'description': 'Initial request'
+            },
+            {
+                'user_id': 'demo_user',
+                'platform': 'whatsapp',
+                'message_text': 'I need them for my travel blog post',
+                'timestamp': '2025-08-07T10:05:00Z',
+                'step': 2,
+                'description': 'Additional context'
+            },
+            {
+                'user_id': 'demo_user',
+                'platform': 'whatsapp',
+                'message_text': 'Any update on those photos? Publishing the blog tomorrow!',
+                'timestamp': '2025-08-07T14:30:00Z',
+                'step': 3,
+                'description': 'Follow-up with urgency'
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             }
         ]
         
@@ -708,7 +913,11 @@ def main():
                     result = st.session_state.summarizer.summarize(msg, use_context=True)
                     
                     st.write(f"**Summary:** {result['summary']}")
+<<<<<<< HEAD
                     st.write(f"**Type:** {result['type']} | **Intent:** {result['intent']} | **Urgency:** {result['urgency']}")
+=======
+                    st.write(f"**Intent:** {result['intent']} | **Urgency:** {result['urgency']}")
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                     st.write(f"**Context Used:** {'Yes' if result['context_used'] else 'No'}")
                     
                     if result['context_used']:
@@ -732,6 +941,7 @@ def main():
         with col3:
             st.metric("Unique Users", context_stats['unique_users'])
     
+<<<<<<< HEAD
     elif demo_mode == "Feedback Analytics":
         st.header("📊 Feedback Analytics Dashboard")
         
@@ -825,6 +1035,12 @@ def main():
         st.header("🚀 Performance Testing")
         
         st.write("Test SmartBrief v3 performance with different message volumes and platform types.")
+=======
+    elif demo_mode == "Performance Test":
+        st.header("🚀 Performance Testing")
+        
+        st.write("Test SmartBrief v3 performance with different message volumes.")
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         
         # Performance test settings
         col1, col2 = st.columns(2)
@@ -833,7 +1049,11 @@ def main():
             test_size = st.selectbox("Test Size:", [10, 50, 100, 500, 1000])
             test_platforms = st.multiselect(
                 "Platforms to Test:", 
+<<<<<<< HEAD
                 ['whatsapp', 'email', 'slack', 'teams', 'instagram'],
+=======
+                ['whatsapp', 'email', 'slack', 'teams'],
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                 default=['whatsapp', 'email']
             )
         
@@ -854,11 +1074,15 @@ def main():
                 "Please review the attached document",
                 "What time should we meet?",
                 "FYI - server maintenance tonight",
+<<<<<<< HEAD
                 "Any updates on the project status?",
                 "yo whats up? party tonight!",
                 "love ur latest post! 😍 where did u get that dress?",
                 "Hey, did the report get done?",
                 "This is urgent - need response ASAP!"
+=======
+                "Any updates on the project status?"
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             ]
             
             for i in range(test_size):
@@ -869,8 +1093,12 @@ def main():
                     'user_id': f'test_user_{i % 20}',  # 20 different users
                     'platform': platform,
                     'message_text': f"{text} (Test message {i+1})",
+<<<<<<< HEAD
                     'timestamp': (datetime.now() - timedelta(minutes=i)).isoformat(),
                     'message_id': f'perf_test_{i}'
+=======
+                    'timestamp': (datetime.now() - timedelta(minutes=i)).isoformat()
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                 })
             
             # Run performance test
@@ -915,21 +1143,34 @@ def main():
             # Performance breakdown
             st.subheader("📊 Performance Breakdown")
             
+<<<<<<< HEAD
             # Calculate distributions from messages and results
             intent_counts = {}
             urgency_counts = {}
             type_counts = {}
+=======
+            # Intent distribution
+            intent_counts = {}
+            urgency_counts = {}
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             platform_counts = {}
             
             for result in results:
                 intent_counts[result['intent']] = intent_counts.get(result['intent'], 0) + 1
                 urgency_counts[result['urgency']] = urgency_counts.get(result['urgency'], 0) + 1
+<<<<<<< HEAD
                 type_counts[result['type']] = type_counts.get(result['type'], 0) + 1
+=======
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             
             for message in test_messages:
                 platform_counts[message['platform']] = platform_counts.get(message['platform'], 0) + 1
             
+<<<<<<< HEAD
             col1, col2, col3, col4 = st.columns(4)
+=======
+            col1, col2, col3 = st.columns(3)
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             
             with col1:
                 st.write("**Intent Distribution:**")
@@ -942,6 +1183,7 @@ def main():
                     st.write(f"• {urgency}: {count}")
             
             with col3:
+<<<<<<< HEAD
                 st.write("**Type Distribution:**")
                 for msg_type, count in type_counts.items():
                     st.write(f"• {msg_type}: {count}")
@@ -981,14 +1223,23 @@ def main():
                 with col2:
                     st.plotly_chart(fig_urgency, use_container_width=True)
                     st.plotly_chart(fig_types, use_container_width=True)
+=======
+                st.write("**Platform Distribution:**")
+                for platform, count in platform_counts.items():
+                    st.write(f"• {platform}: {count}")
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
     
     # Footer
     st.markdown("---")
     st.markdown("""
     <div style='text-align: center; color: #666;'>
         <p>🤖 SmartBrief v3 - Context-Aware Message Summarization</p>
+<<<<<<< HEAD
         <p>Built with Streamlit • Powered by Advanced NLP • Enhanced with Feedback Loop</p>
         <p>Features: Multi-Platform Support • Context Awareness • Intent Detection • Urgency Analysis • Feedback Learning</p>
+=======
+        <p>Built with Streamlit • Powered by Advanced NLP</p>
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
     </div>
     """, unsafe_allow_html=True)
 

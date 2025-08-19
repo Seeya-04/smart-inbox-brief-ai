@@ -48,11 +48,6 @@ class SmartSuggestionsModule:
                 {'action': 'flag_priority', 'text': '🚩 Flag as Priority', 'priority': 'medium'},
                 {'action': 'delegate', 'text': '👥 Delegate Task', 'priority': 'medium'}
             ],
-<<<<<<< HEAD
-            'NEWSLETTER': [  'text': '👥 Delegate Task', 'priority': 'medium'}
-            ],
-=======
->>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             'NEWSLETTER': [
                 {'action': 'read_later', 'text': '📖 Save for Later', 'priority': 'high'},
                 {'action': 'skim_content', 'text': '👀 Quick Skim', 'priority': 'medium'},
@@ -490,3 +485,29 @@ class SmartSuggestionsModule:
             default=('none', 0)
         )[0]
         return stats
+
+# Example usage
+if __name__ == "__main__":
+    suggestions_module = SmartSuggestionsModule()
+    
+    # Test email
+    test_email = {
+        'id': 'test_001',
+        'subject': 'Team meeting tomorrow at 2 PM',
+        'body': 'Hi everyone, we have our weekly team meeting tomorrow at 2 PM in conference room A. Please confirm attendance.',
+        'sender': 'manager@company.com'
+    }
+    
+    # Generate suggestions
+    suggestions = suggestions_module.generate_suggestions(test_email, 'MEETING', 0.85)
+    
+    print("Generated Suggestions:")
+    for i, suggestion in enumerate(suggestions, 1):
+        print(f"{i}. {suggestion['text']} (Confidence: {suggestion['confidence']:.2f})")
+        print(f"   Context: {suggestion['context']}")
+        print(f"   Time: {suggestion['estimated_time']}")
+        print()
+    
+    # Test executing a suggestion
+    result = suggestions_module.execute_suggestion(test_email, 'add_calendar')
+    print(f"Execution result: {result}")

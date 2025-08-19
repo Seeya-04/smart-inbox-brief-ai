@@ -8,6 +8,7 @@ import imaplib
 import ssl
 from typing import List, Dict, Optional
 import re
+<<<<<<< HEAD
 import logging
 
 # Set up logging
@@ -16,31 +17,79 @@ logger = logging.getLogger(__name__)
 
 class EmailReader:
     """Enhanced email reader with proper Gmail IMAP integration."""
+=======
+<<<<<<< HEAD
+import logging
+
+class EmailReader:
+    """Enhanced email reader with proper Gmail IMAP integration."""
+=======
+
+class EmailReader:
+    """Enhanced email reader with IMAP integration and mock capabilities."""
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
     
     def __init__(self, use_mock=True):
         self.use_mock = use_mock
         self.imap_server = None
         self.connection = None
+<<<<<<< HEAD
     
     def connect_imap(self, email_address: str, password: str, imap_server: str = None) -> bool:
         """Connect to IMAP server for live email reading with improved Gmail support."""
+=======
+<<<<<<< HEAD
+        self.logger = self._setup_logger()
+    
+    def _setup_logger(self):
+        """Setup logging for debugging."""
+        logging.basicConfig(level=logging.INFO)
+        return logging.getLogger(__name__)
+    
+    def connect_imap(self, email_address: str, password: str, imap_server: str = None) -> bool:
+        """Connect to IMAP server for live email reading with improved Gmail support."""
+=======
+    
+    def connect_imap(self, email_address: str, password: str, imap_server: str = None) -> bool:
+        """Connect to IMAP server for live email reading."""
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         try:
             # Auto-detect IMAP server if not provided
             if not imap_server:
                 domain = email_address.split('@')[1].lower()
                 if 'gmail' in domain:
                     imap_server = 'imap.gmail.com'
+<<<<<<< HEAD
                 elif 'outlook' in domain or 'hotmail' in domain or 'live' in domain:
+=======
+<<<<<<< HEAD
+                elif 'outlook' in domain or 'hotmail' in domain or 'live' in domain:
+=======
+                elif 'outlook' in domain or 'hotmail' in domain:
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                     imap_server = 'outlook.office365.com'
                 elif 'yahoo' in domain:
                     imap_server = 'imap.mail.yahoo.com'
                 else:
+<<<<<<< HEAD
                     logger.warning(f"Unknown email provider for {domain}. Please specify IMAP server.")
                     return False
             
             logger.info(f"Attempting to connect to {imap_server} for {email_address}")
             
             # Create SSL context with proper settings
+=======
+<<<<<<< HEAD
+                    self.logger.warning(f"Unknown email provider for {domain}. Please specify IMAP server.")
+                    return False
+            
+            self.logger.info(f"Attempting to connect to {imap_server} for {email_address}")
+            
+            # Create SSL context with proper settings for Gmail
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             context = ssl.create_default_context()
             
             # For Gmail, we might need to be less strict about SSL
@@ -55,6 +104,7 @@ class EmailReader:
             # Test connection by selecting INBOX
             status, message_count = self.connection.select('INBOX')
             if status == 'OK':
+<<<<<<< HEAD
                 logger.info(f"✅ Successfully connected to {imap_server}")
                 logger.info(f"📧 Found {message_count[0].decode()} total messages")
                 return True
@@ -69,16 +119,60 @@ class EmailReader:
             return False
         except Exception as e:
             logger.error(f"❌ IMAP connection failed: {e}")
+=======
+                self.logger.info(f"✅ Successfully connected to {imap_server}")
+                self.logger.info(f"📧 Found {message_count[0].decode()} total messages")
+                return True
+            else:
+                self.logger.error(f"❌ Failed to select INBOX: {status}")
+                return False
+            
+        except imaplib.IMAP4.error as e:
+            self.logger.error(f"❌ IMAP protocol error: {e}")
+            self.logger.error("💡 For Gmail: Make sure you're using an App Password, not your regular password")
+            self.logger.error("💡 Enable 2-Step Verification and generate an App Password at: https://myaccount.google.com/apppasswords")
+            return False
+        except Exception as e:
+            self.logger.error(f"❌ IMAP connection failed: {e}")
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             return False
     
     def fetch_live_emails(self, folder='INBOX', limit=50, search_criteria='ALL') -> List[Dict]:
         """Fetch emails from live IMAP connection with improved error handling."""
         if not self.connection:
+<<<<<<< HEAD
             logger.error("❌ No IMAP connection established")
+=======
+            self.logger.error("❌ No IMAP connection established")
+=======
+                    print(f"⚠️ Unknown email provider. Please specify IMAP server.")
+                    return False
+            
+            # Create SSL context
+            context = ssl.create_default_context()
+            
+            # Connect to server
+            self.connection = imaplib.IMAP4_SSL(imap_server, 993, ssl_context=context)
+            self.connection.login(email_address, password)
+            
+            print(f"✅ Successfully connected to {imap_server}")
+            return True
+            
+        except Exception as e:
+            print(f"❌ IMAP connection failed: {e}")
+            return False
+    
+    def fetch_live_emails(self, folder='INBOX', limit=10) -> List[Dict]:
+        """Fetch emails from live IMAP connection."""
+        if not self.connection:
+            print("❌ No IMAP connection established")
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             return []
         
         try:
             # Select folder
+<<<<<<< HEAD
             status, message_count = self.connection.select(folder)
             if status != 'OK':
                 logger.error(f"❌ Failed to select folder {folder}: {message_count}")
@@ -86,6 +180,16 @@ class EmailReader:
             
             total_messages = int(message_count[0].decode())
             logger.info(f"📁 Selected folder {folder} with {total_messages} messages")
+=======
+<<<<<<< HEAD
+            status, message_count = self.connection.select(folder)
+            if status != 'OK':
+                self.logger.error(f"❌ Failed to select folder {folder}: {message_count}")
+                return []
+            
+            total_messages = int(message_count[0].decode())
+            self.logger.info(f"📁 Selected folder {folder} with {total_messages} messages")
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             
             # Search for emails with different strategies
             search_strategies = [
@@ -100,6 +204,7 @@ class EmailReader:
                     status, messages = self.connection.search(None, criteria)
                     if status == 'OK' and messages[0]:
                         email_ids = messages[0].split()
+<<<<<<< HEAD
                         logger.info(f"📧 Found {len(email_ids)} {description}")
                         break
                 except Exception as e:
@@ -108,34 +213,63 @@ class EmailReader:
             
             if not email_ids:
                 logger.warning("📭 No emails found with any search criteria")
+=======
+                        self.logger.info(f"📧 Found {len(email_ids)} {description}")
+                        break
+                except Exception as e:
+                    self.logger.warning(f"⚠️ Search failed for {criteria}: {e}")
+                    continue
+            
+            if not email_ids:
+                self.logger.warning("📭 No emails found with any search criteria")
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                 return []
             
             # Get recent emails (limit) - take from the end for most recent
             if len(email_ids) > limit:
                 recent_emails = email_ids[-limit:]
+<<<<<<< HEAD
                 logger.info(f"📧 Processing {limit} most recent emails")
             else:
                 recent_emails = email_ids
                 logger.info(f"📧 Processing all {len(recent_emails)} emails")
+=======
+                self.logger.info(f"📧 Processing {limit} most recent emails")
+            else:
+                recent_emails = email_ids
+                self.logger.info(f"📧 Processing all {len(recent_emails)} emails")
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             
             emails = []
             failed_count = 0
             
             for i, email_id in enumerate(recent_emails):
                 try:
+<<<<<<< HEAD
                     logger.info(f"📥 Fetching email {i+1}/{len(recent_emails)} (ID: {email_id.decode()})")
+=======
+                    self.logger.info(f"📥 Fetching email {i+1}/{len(recent_emails)} (ID: {email_id.decode()})")
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                     
                     # Fetch email with proper flags
                     status, msg_data = self.connection.fetch(email_id, '(RFC822)')
                     
                     if status != 'OK' or not msg_data or not msg_data[0]:
+<<<<<<< HEAD
                         logger.warning(f"⚠️ Failed to fetch email {email_id}: {status}")
+=======
+                        self.logger.warning(f"⚠️ Failed to fetch email {email_id}: {status}")
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                         failed_count += 1
                         continue
                         
                     email_body = msg_data[0][1]
                     if not email_body:
+<<<<<<< HEAD
                         logger.warning(f"⚠️ Empty email body for {email_id}")
+=======
+                        self.logger.warning(f"⚠️ Empty email body for {email_id}")
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                         failed_count += 1
                         continue
                     
@@ -145,11 +279,16 @@ class EmailReader:
                     parsed_email = self._parse_email_message(email_message, email_id.decode())
                     if parsed_email:
                         emails.append(parsed_email)
+<<<<<<< HEAD
                         logger.info(f"✅ Successfully parsed: {parsed_email['subject'][:50]}...")
+=======
+                        self.logger.info(f"✅ Successfully parsed: {parsed_email['subject'][:50]}...")
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                     else:
                         failed_count += 1
                         
                 except Exception as e:
+<<<<<<< HEAD
                     logger.error(f"⚠️ Error processing email {email_id}: {e}")
                     failed_count += 1
                     continue
@@ -157,11 +296,24 @@ class EmailReader:
             logger.info(f"✅ Successfully fetched {len(emails)} emails from {folder}")
             if failed_count > 0:
                 logger.warning(f"⚠️ Failed to process {failed_count} emails")
+=======
+                    self.logger.error(f"⚠️ Error processing email {email_id}: {e}")
+                    failed_count += 1
+                    continue
+            
+            self.logger.info(f"✅ Successfully fetched {len(emails)} emails from {folder}")
+            if failed_count > 0:
+                self.logger.warning(f"⚠️ Failed to process {failed_count} emails")
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                 
             return emails
             
         except Exception as e:
+<<<<<<< HEAD
             logger.error(f"❌ Error fetching emails: {e}")
+=======
+            self.logger.error(f"❌ Error fetching emails: {e}")
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             return []
     
     def _parse_email_message(self, email_message, email_id: str) -> Optional[Dict]:
@@ -183,7 +335,11 @@ class EmailReader:
             try:
                 received_date = self._parse_date(date_str) if date_str else datetime.now()
             except Exception as e:
+<<<<<<< HEAD
                 logger.warning(f"Date parsing failed for {email_id}: {e}")
+=======
+                self.logger.warning(f"Date parsing failed for {email_id}: {e}")
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                 received_date = datetime.now()
             
             # Get body with improved extraction
@@ -217,7 +373,11 @@ class EmailReader:
             return parsed_email
             
         except Exception as e:
+<<<<<<< HEAD
             logger.error(f"⚠️ Error parsing email message {email_id}: {e}")
+=======
+            self.logger.error(f"⚠️ Error parsing email message {email_id}: {e}")
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             return None
     
     def _extract_email_address(self, sender_text: str) -> str:
@@ -249,6 +409,78 @@ class EmailReader:
                 
         return False
     
+<<<<<<< HEAD
+=======
+=======
+            self.connection.select(folder)
+            
+            # Search for recent emails
+            status, messages = self.connection.search(None, 'ALL')
+            email_ids = messages[0].split()
+            
+            # Get recent emails (limit)
+            recent_emails = email_ids[-limit:] if len(email_ids) > limit else email_ids
+            
+            emails = []
+            for email_id in recent_emails:
+                try:
+                    # Fetch email
+                    status, msg_data = self.connection.fetch(email_id, '(RFC822)')
+                    email_body = msg_data[0][1]
+                    email_message = email.message_from_bytes(email_body)
+                    
+                    # Parse email
+                    parsed_email = self._parse_email_message(email_message, email_id.decode())
+                    if parsed_email:
+                        emails.append(parsed_email)
+                        
+                except Exception as e:
+                    print(f"⚠️ Error parsing email {email_id}: {e}")
+                    continue
+            
+            print(f"✅ Fetched {len(emails)} emails from {folder}")
+            return emails
+            
+        except Exception as e:
+            print(f"❌ Error fetching emails: {e}")
+            return []
+    
+    def _parse_email_message(self, email_message, email_id: str) -> Dict:
+        """Parse email message object into structured data."""
+        try:
+            # Get subject
+            subject = self._decode_header(email_message.get("Subject", "No Subject"))
+            
+            # Get sender
+            sender = self._decode_header(email_message.get("From", "Unknown"))
+            
+            # Get date
+            date_str = email_message.get("Date", "")
+            received_date = self._parse_date(date_str)
+            
+            # Get body
+            body = self._extract_email_body(email_message)
+            
+            # Check for image attachments
+            has_image_attachments = self._check_image_attachments(email_message)
+            
+            return {
+                'id': f"email_{email_id}",
+                'subject': subject,
+                'sender': sender,
+                'body': body,
+                'date': received_date,
+                'raw_date': date_str,
+                'label': 'inbox',  # Default label
+                'has_image_attachments': has_image_attachments
+            }
+            
+        except Exception as e:
+            print(f"⚠️ Error parsing email message: {e}")
+            return None
+            
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
     def _check_image_attachments(self, email_message) -> bool:
         """Check if email has image attachments."""
         if not email_message.is_multipart():
@@ -256,6 +488,10 @@ class EmailReader:
             
         for part in email_message.walk():
             content_type = part.get_content_type()
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             if content_type and content_type.startswith('image/'):
                 disposition = part.get("Content-Disposition")
                 if disposition and "attachment" in disposition:
@@ -265,10 +501,26 @@ class EmailReader:
     
     def _decode_header(self, header) -> str:
         """Decode email header with improved error handling."""
+<<<<<<< HEAD
+=======
+=======
+            if content_type.startswith('image/'):
+                return True
+                
+        return False
+    
+    def _decode_header(self, header) -> str:
+        """Decode email header."""
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         if not header:
             return ""
         
         try:
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             decoded_parts = decode_header(header)
             decoded_string = ""
             
@@ -291,7 +543,11 @@ class EmailReader:
             
             return decoded_string.strip()
         except Exception as e:
+<<<<<<< HEAD
             logger.warning(f"Header decode error: {e}")
+=======
+            self.logger.warning(f"Header decode error: {e}")
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             return str(header)
     
     def _parse_date(self, date_str: str) -> datetime:
@@ -319,15 +575,45 @@ class EmailReader:
             except Exception:
                 pass
             
+<<<<<<< HEAD
             logger.warning(f"Could not parse date: {date_str}")
+=======
+            self.logger.warning(f"Could not parse date: {date_str}")
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             return datetime.now()
     
     def _extract_email_body(self, email_message) -> str:
         """Extract text body from email message with improved handling."""
+<<<<<<< HEAD
+=======
+=======
+            decoded_header = decode_header(header)[0]
+            if isinstance(decoded_header[0], bytes):
+                return decoded_header[0].decode(decoded_header[1] or 'utf-8')
+            return str(decoded_header[0])
+        except:
+            return str(header)
+    
+    def _parse_date(self, date_str: str) -> datetime:
+        """Parse email date string."""
+        try:
+            from email.utils import parsedate_to_datetime
+            return parsedate_to_datetime(date_str)
+        except:
+            return datetime.now()
+    
+    def _extract_email_body(self, email_message) -> str:
+        """Extract text body from email message."""
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         body = ""
         
         try:
             if email_message.is_multipart():
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                 # Handle multipart messages
                 for part in email_message.walk():
                     content_type = part.get_content_type()
@@ -368,17 +654,46 @@ class EmailReader:
                             body = payload.decode('utf-8', errors='replace')
                     else:
                         body = str(payload)
+<<<<<<< HEAD
+=======
+=======
+                for part in email_message.walk():
+                    if part.get_content_type() == "text/plain":
+                        body = part.get_payload(decode=True).decode('utf-8', errors='ignore')
+                        break
+                    elif part.get_content_type() == "text/html" and not body:
+                        # Fallback to HTML if no plain text
+                        html_body = part.get_payload(decode=True).decode('utf-8', errors='ignore')
+                        body = self._strip_html(html_body)
+            else:
+                body = email_message.get_payload(decode=True).decode('utf-8', errors='ignore')
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             
             # Clean up body
             body = self._clean_email_body(body)
             
         except Exception as e:
+<<<<<<< HEAD
             logger.error(f"⚠️ Error extracting email body: {e}")
             body = f"Could not extract email body: {str(e)}"
+=======
+<<<<<<< HEAD
+            self.logger.error(f"⚠️ Error extracting email body: {e}")
+            body = f"Could not extract email body: {str(e)}"
+=======
+            print(f"⚠️ Error extracting email body: {e}")
+            body = "Could not extract email body"
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         
         return body
     
     def _strip_html(self, html_text: str) -> str:
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         """Remove HTML tags and entities."""
         import re
         
@@ -401,6 +716,15 @@ class EmailReader:
             text = text.replace(entity, replacement)
         
         return text
+<<<<<<< HEAD
+=======
+=======
+        """Basic HTML tag removal."""
+        import re
+        clean = re.compile('<.*?>')
+        return re.sub(clean, '', html_text)
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
     
     def _clean_email_body(self, body: str) -> str:
         """Clean email body text."""
@@ -410,6 +734,10 @@ class EmailReader:
         # Remove excessive whitespace
         body = re.sub(r'\n\s*\n', '\n\n', body)
         body = re.sub(r' +', ' ', body)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         body = re.sub(r'\t+', ' ', body)
         
         # Remove common email signatures and disclaimers
@@ -426,18 +754,40 @@ class EmailReader:
         # Limit length for processing
         if len(body) > 3000:
             body = body[:3000] + "... [truncated for processing]"
+<<<<<<< HEAD
+=======
+=======
+        
+        # Limit length for processing
+        if len(body) > 2000:
+            body = body[:2000] + "... [truncated]"
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         
         return body.strip()
     
     def create_enhanced_mock_emails(self) -> List[Dict]:
         """Create enhanced mock emails with realistic content."""
         mock_emails = [
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             # Work/Business Emails
             {
                 'id': 'email_001',
                 'subject': 'URGENT: Server Downtime Scheduled for Tonight',
                 'sender': 'IT Operations <ops-team@company.com>',
                 'sender_email': 'ops-team@company.com',
+<<<<<<< HEAD
+=======
+=======
+            {
+                'id': 'email_001',
+                'subject': 'URGENT: Server Downtime Scheduled for Tonight',
+                'sender': 'ops-team@company.com',
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                 'body': '''Hi Team,
 
 We have scheduled emergency server maintenance tonight from 11 PM to 3 AM EST. 
@@ -452,6 +802,10 @@ Please plan accordingly. Contact me immediately if you have concerns.
 
 Best regards,
 Operations Team''',
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                 'date': (datetime.now() - timedelta(hours=2)).isoformat(),
                 'label': 'work',
                 'has_attachments': False,
@@ -460,12 +814,29 @@ Operations Team''',
                 'to': 'team@company.com',
                 'cc': '',
                 'folder': 'INBOX'
+<<<<<<< HEAD
+=======
+=======
+                'date': datetime.now() - timedelta(hours=2),
+                'label': 'work',
+                'has_image_attachments': False
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             },
             {
                 'id': 'email_002',
                 'subject': 'Weekly Team Meeting - Tomorrow 2 PM',
+<<<<<<< HEAD
                 'sender': 'Sarah Manager <sarah.manager@company.com>',
                 'sender_email': 'sarah.manager@company.com',
+=======
+<<<<<<< HEAD
+                'sender': 'Sarah Manager <sarah.manager@company.com>',
+                'sender_email': 'sarah.manager@company.com',
+=======
+                'sender': 'sarah.manager@company.com',
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                 'body': '''Hello everyone,
 
 Reminder about our weekly team meeting tomorrow at 2 PM in Conference Room B.
@@ -479,6 +850,10 @@ Please bring your project reports.
 
 Thanks,
 Sarah''',
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                 'date': (datetime.now() - timedelta(hours=5)).isoformat(),
                 'label': 'meeting',
                 'has_attachments': False,
@@ -487,12 +862,29 @@ Sarah''',
                 'to': 'team@company.com',
                 'cc': '',
                 'folder': 'INBOX'
+<<<<<<< HEAD
+=======
+=======
+                'date': datetime.now() - timedelta(hours=5),
+                'label': 'meeting',
+                'has_image_attachments': False
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             },
             {
                 'id': 'email_003',
                 'subject': 'Invoice #12345 - Payment Due in 3 Days',
+<<<<<<< HEAD
                 'sender': 'Billing Department <billing@vendor.com>',
                 'sender_email': 'billing@vendor.com',
+=======
+<<<<<<< HEAD
+                'sender': 'Billing Department <billing@vendor.com>',
+                'sender_email': 'billing@vendor.com',
+=======
+                'sender': 'billing@vendor.com',
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                 'body': '''Dear Customer,
 
 This is a friendly reminder that Invoice #12345 for $2,450.00 is due in 3 days (March 15th).
@@ -505,6 +897,10 @@ Invoice Details:
 Please process payment to avoid late fees.
 
 Customer Service Team''',
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                 'date': (datetime.now() - timedelta(hours=8)).isoformat(),
                 'label': 'financial',
                 'has_attachments': True,
@@ -548,6 +944,19 @@ Security Team''',
                 'subject': '🎉 50% OFF Everything - Limited Time!',
                 'sender': 'Online Store <deals@onlinestore.com>',
                 'sender_email': 'deals@onlinestore.com',
+<<<<<<< HEAD
+=======
+=======
+                'date': datetime.now() - timedelta(hours=8),
+                'label': 'financial',
+                'has_image_attachments': False
+            },
+            {
+                'id': 'email_004',
+                'subject': '🎉 50% OFF Everything - Limited Time!',
+                'sender': 'deals@onlinestore.com',
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                 'body': '''🛍️ MEGA SALE ALERT! 🛍️
 
 Get 50% OFF everything in our store this weekend only!
@@ -561,6 +970,10 @@ Use code: SAVE50
 Shop now before items sell out!
 
 Happy Shopping!''',
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                 'date': (datetime.now() - timedelta(hours=12)).isoformat(),
                 'label': 'promotional',
                 'has_attachments': False,
@@ -569,12 +982,24 @@ Happy Shopping!''',
                 'to': 'customer@email.com',
                 'cc': '',
                 'folder': 'INBOX'
+<<<<<<< HEAD
             },
             {
                 'id': 'email_006',
                 'subject': 'Re: Project Alpha - Need Your Input ASAP',
                 'sender': 'John Colleague <john.colleague@company.com>',
                 'sender_email': 'john.colleague@company.com',
+=======
+=======
+                'date': datetime.now() - timedelta(hours=12),
+                'label': 'promotional',
+                'has_image_attachments': True
+            },
+            {
+                'id': 'email_005',
+                'subject': 'Re: Project Alpha - Need Your Input ASAP',
+                'sender': 'john.colleague@company.com',
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                 'body': '''Hi,
 
 Thanks for the project update. I reviewed the documents and have a few questions:
@@ -587,6 +1012,7 @@ This is quite urgent as the client meeting is tomorrow. Please get back to me AS
 
 Thanks,
 John''',
+<<<<<<< HEAD
                 'date': (datetime.now() - timedelta(hours=1)).isoformat(),
                 'label': 'urgent',
                 'has_attachments': False,
@@ -601,6 +1027,16 @@ John''',
                 'subject': 'Your Monthly Newsletter - Tech Trends',
                 'sender': 'Tech Blog <newsletter@techblog.com>',
                 'sender_email': 'newsletter@techblog.com',
+=======
+                'date': datetime.now() - timedelta(hours=1),
+                'label': 'urgent',
+                'has_image_attachments': False
+            },
+            {
+                'id': 'email_006',
+                'subject': 'Your Monthly Newsletter - Tech Trends',
+                'sender': 'newsletter@techblog.com',
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                 'body': '''📱 This Month in Technology
 
 Top stories this month:
@@ -610,6 +1046,7 @@ Top stories this month:
 
 Read full articles on our website.
 
+<<<<<<< HEAD
 Unsubscribe | Update preferences
 
 Tech Blog Team''',
@@ -627,6 +1064,17 @@ Tech Blog Team''',
                 'subject': 'Lunch meeting today - 12:30 PM',
                 'sender': 'Important Client <client@importantcorp.com>',
                 'sender_email': 'client@importantcorp.com',
+=======
+Tech Blog Team''',
+                'date': datetime.now() - timedelta(days=1),
+                'label': 'newsletter',
+                'has_image_attachments': False
+            },
+            {
+                'id': 'email_007',
+                'subject': 'Lunch meeting today - 12:30 PM',
+                'sender': 'client@importantcorp.com',
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                 'body': '''Hi,
 
 Looking forward to our lunch meeting today at 12:30 PM at The Blue Restaurant.
@@ -636,6 +1084,7 @@ I'll bring the contract documents for review. Please confirm if you're still ava
 Best regards,
 Michael Chen
 Important Corp''',
+<<<<<<< HEAD
                 'date': (datetime.now() - timedelta(minutes=30)).isoformat(),
                 'label': 'meeting',
                 'has_attachments': False,
@@ -644,12 +1093,38 @@ Important Corp''',
                 'to': 'user@company.com',
                 'cc': '',
                 'folder': 'INBOX'
+=======
+                'date': datetime.now() - timedelta(minutes=30),
+                'label': 'meeting',
+                'has_image_attachments': False
+            },
+            {
+                'id': 'email_008',
+                'subject': 'Password Reset Required',
+                'sender': 'security@company.com',
+                'body': '''Security Alert,
+
+We detected unusual login activity on your account. As a precaution, please reset your password immediately.
+
+Click here to reset: [SECURE LINK]
+
+If you did not request this, contact IT support immediately.
+
+Security Team''',
+                'date': datetime.now() - timedelta(minutes=45),
+                'label': 'security',
+                'has_image_attachments': False
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             },
             {
                 'id': 'email_009',
                 'subject': 'Project Screenshots for Review',
+<<<<<<< HEAD
                 'sender': 'Design Team <design-team@company.com>',
                 'sender_email': 'design-team@company.com',
+=======
+                'sender': 'design-team@company.com',
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                 'body': '''Hi Team,
 
 I've attached the latest screenshots of our UI design for the new project. Please review them and provide feedback by tomorrow.
@@ -660,6 +1135,7 @@ Let me know what you think!
 
 Best regards,
 Design Team''',
+<<<<<<< HEAD
                 'date': (datetime.now() - timedelta(hours=1)).isoformat(),
                 'label': 'work',
                 'has_attachments': True,
@@ -668,11 +1144,18 @@ Design Team''',
                 'to': 'team@company.com',
                 'cc': '',
                 'folder': 'INBOX'
+=======
+                'date': datetime.now() - timedelta(hours=1),
+                'label': 'work',
+                'has_image_attachments': True
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             }
         ]
         
         return mock_emails
     
+<<<<<<< HEAD
     def load_emails(self, email_address=None, password=None, limit=50) -> pd.DataFrame:
         """Main method to load emails (mock or live) with proper error handling."""
         if self.use_mock:
@@ -692,6 +1175,28 @@ Design Team''',
                         emails = self.create_enhanced_mock_emails()
                 else:
                     logger.warning("⚠️ Connection failed, falling back to mock emails")
+=======
+<<<<<<< HEAD
+    def load_emails(self, email_address=None, password=None, limit=50, include_instagram=False) -> pd.DataFrame:
+        """Main method to load emails (mock or live) with proper error handling."""
+        if self.use_mock:
+            self.logger.info("📂 Loading mock emails...")
+            emails = self.create_enhanced_mock_emails()
+        else:
+            if not email_address or not password:
+                self.logger.error("❌ Email credentials required for live connection")
+                self.logger.info("📂 Falling back to mock emails...")
+                emails = self.create_enhanced_mock_emails()
+            else:
+                self.logger.info("📡 Connecting to live email...")
+                if self.connect_imap(email_address, password):
+                    emails = self.fetch_live_emails(limit=limit)
+                    if not emails:
+                        self.logger.warning("⚠️ No emails fetched, falling back to mock emails")
+                        emails = self.create_enhanced_mock_emails()
+                else:
+                    self.logger.warning("⚠️ Connection failed, falling back to mock emails")
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                     emails = self.create_enhanced_mock_emails()
         
         # Convert to DataFrame
@@ -709,21 +1214,76 @@ Design Team''',
                     else:
                         df[col] = f'Unknown {col}'
             
+<<<<<<< HEAD
             logger.info(f"✅ Successfully loaded {len(df)} emails")
             return df
         else:
             logger.warning("📭 No emails to load")
+=======
+            self.logger.info(f"✅ Successfully loaded {len(df)} emails")
+            return df
+        else:
+            self.logger.warning("📭 No emails to load")
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             return pd.DataFrame()
     
     def close_connection(self):
         """Close IMAP connection safely."""
+<<<<<<< HEAD
+=======
+=======
+    def load_emails(self, email_address=None, password=None, limit=10) -> pd.DataFrame:
+        """Main method to load emails (mock or live)."""
+        if self.use_mock:
+            print("📂 Loading mock emails...")
+            emails = self.create_enhanced_mock_emails()
+        else:
+            if not email_address or not password:
+                print("❌ Email credentials required for live connection")
+                return pd.DataFrame()
+            
+            print("📡 Connecting to live email...")
+            if self.connect_imap(email_address, password):
+                emails = self.fetch_live_emails(limit=limit)
+            else:
+                print("⚠️ Falling back to mock emails")
+                emails = self.create_enhanced_mock_emails()
+        
+        # Convert to DataFrame
+        df = pd.DataFrame(emails)
+        
+        # Ensure all required columns exist
+        required_columns = ['id', 'subject', 'sender', 'body', 'date', 'label']
+        for col in required_columns:
+            if col not in df.columns:
+                if col == 'date':
+                    df[col] = datetime.now()
+                elif col == 'label':
+                    df[col] = 'general'
+                else:
+                    df[col] = f'Unknown {col}'
+        
+        print(f"✅ Loaded {len(df)} emails successfully")
+        return df
+    
+    def close_connection(self):
+        """Close IMAP connection."""
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         if self.connection:
             try:
                 self.connection.close()
                 self.connection.logout()
+<<<<<<< HEAD
                 logger.info("✅ IMAP connection closed successfully")
             except Exception as e:
                 logger.warning(f"⚠️ Error closing connection: {e}")
+=======
+<<<<<<< HEAD
+                self.logger.info("✅ IMAP connection closed successfully")
+            except Exception as e:
+                self.logger.warning(f"⚠️ Error closing connection: {e}")
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             finally:
                 self.connection = None
 
@@ -773,6 +1333,13 @@ Design Team''',
             ]
         
         return test_result
+<<<<<<< HEAD
+=======
+=======
+                print("✅ IMAP connection closed")
+            except:
+                pass
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
 
 # Usage examples
 if __name__ == "__main__":
@@ -791,3 +1358,7 @@ if __name__ == "__main__":
     )
     reader.close_connection()
     """
+<<<<<<< HEAD
+=======
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03

@@ -1,5 +1,12 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
 import pandas as pd
 import json
 import os
@@ -48,6 +55,38 @@ def create_dashboard(emails_df, brief_summary="", reward_history=None, q_table_f
 
     if save_as_image:
         path = os.path.join(os.getcwd(), "dashboard.png")
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+
+def create_dashboard(emails_df, brief_summary, reward_history, auto_open=True, save_as_image=False):
+    print("📊 Creating Analytics Dashboard...")
+
+    plt.figure(figsize=(14, 6))
+
+    # Subplot 1: Importance Score Distribution
+    plt.subplot(1, 2, 1)
+    sns.histplot(emails_df["importance"], bins=5, kde=True, color='skyblue')
+    plt.title("Email Importance Distribution")
+    plt.xlabel("Importance Score")
+
+    # Subplot 2: Reward Progression
+    plt.subplot(1, 2, 2)
+    plt.plot(reward_history, marker='o', linestyle='-', color='green')
+    plt.title("Reward Over Episodes")
+    plt.xlabel("Episode")
+    plt.ylabel("Total Reward")
+
+    plt.tight_layout()
+
+    if save_as_image:
+        from os import getcwd
+        path = f"{getcwd()}/dashboard.png"
+>>>>>>> 7a8cf9ef7497fa34b6935d7a358196a26a6b3027
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         plt.savefig(path)
         print(f"[✔] Saved dashboard as {path}")
 

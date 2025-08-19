@@ -4,9 +4,12 @@ import getpass
 from cryptography.fernet import Fernet
 import base64
 from typing import Optional, Dict
+<<<<<<< HEAD
 from datetime import datetime
 
 CREDENTIALS_FILE = 'email_credentials.enc'
+=======
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
 
 class CredentialsManager:
     """Secure credentials manager for storing email credentials."""
@@ -35,7 +38,11 @@ class CredentialsManager:
                 'email_address': email_address,
                 'password': password,
                 'provider': provider,
+<<<<<<< HEAD
                 'timestamp': str(datetime.now())  # Use current timestamp
+=======
+                'timestamp': '2024-01-01'  # Placeholder timestamp
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             }
             
             # Encrypt credentials
@@ -90,12 +97,21 @@ def setup_email_credentials():
     """Interactive setup for email credentials."""
     print("🔐 Email Credentials Setup")
     print("=" * 40)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
     print("📧 For Gmail users:")
     print("   1. Enable 2-Factor Authentication")
     print("   2. Generate an App Password (not your regular password)")
     print("   3. Use the App Password here")
     print("   4. Guide: https://support.google.com/accounts/answer/185833")
     print()
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
     
     credentials_manager = CredentialsManager()
     
@@ -113,12 +129,24 @@ def setup_email_credentials():
     # Get new credentials
     print("\n📧 Enter your email credentials:")
     email_address = input("Email address: ").strip()
+<<<<<<< HEAD
     password = getpass.getpass("App password (not regular password): ")
+=======
+<<<<<<< HEAD
+    password = getpass.getpass("App password (not regular password): ")
+=======
+    password = getpass.getpass("App password: ")
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
     provider = input("Email provider (gmail/outlook/yahoo): ").strip().lower()
     
     if not provider:
         provider = 'gmail'
     
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
     # Validate email format
     if '@' not in email_address:
         print("❌ Invalid email address format")
@@ -132,6 +160,14 @@ def setup_email_credentials():
     if credentials_manager.save_credentials(email_address, password, provider):
         print("✅ Credentials saved successfully!")
         print("💡 Tip: If connection fails, make sure you're using an App Password, not your regular password")
+<<<<<<< HEAD
+=======
+=======
+    # Save credentials
+    if credentials_manager.save_credentials(email_address, password, provider):
+        print("✅ Credentials saved successfully!")
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         return {
             'email_address': email_address,
             'password': password,
@@ -203,4 +239,12 @@ if __name__ == "__main__":
     if credentials:
         print(f"✅ Successfully loaded credentials for {credentials['email_address']}")
     else:
+<<<<<<< HEAD
         print("❌ No credentials available")
+=======
+<<<<<<< HEAD
+        print("❌ No credentials available")
+=======
+        print("❌ No credentials available") 
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03

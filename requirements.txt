@@ -9,4 +9,12 @@ spacy>=3.4.0
 emoji>=2.0.0
 scikit-learn>=1.0.0
 plotly>=5.0.0
+<<<<<<< HEAD
 cryptography>=3.4.0
+=======
+<<<<<<< HEAD
+cryptography>=3.4.0
+=======
+cryptography>=3.4.0
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03

@@ -86,7 +86,11 @@ class SmartSummarizerV3:
             ],
             'follow_up': [
                 r'\bfollow.?up\b', r'\bupdate\b', r'\bstatus\b', r'\bprogress\b',
+<<<<<<< HEAD
                 r'\bany news\b', r'\bhow.?s it going\b', r'\bheard back\b', r'\bdid.*get done\b'
+=======
+                r'\bany news\b', r'\bhow.?s it going\b', r'\bheard back\b'
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             ],
             'complaint': [
                 r'\bissue\b', r'\bproblem\b', r'\berror\b', r'\bbug\b', r'\bwrong\b',
@@ -107,6 +111,7 @@ class SmartSummarizerV3:
             'informational': [
                 r'\bfyi\b', r'\bfor your information\b', r'\bjust letting you know\b',
                 r'\bheads up\b', r'\bnotice\b', r'\bannouncement\b'
+<<<<<<< HEAD
             ],
             'confirmation': [
                 r'\bconfirm\b', r'\bconfirmed\b', r'\byes\b', r'\bokay\b', r'\bgot it\b',
@@ -119,6 +124,8 @@ class SmartSummarizerV3:
             'check_progress': [
                 r'\bprogress\b', r'\bstatus\b', r'\bhow.?s.*going\b', r'\bupdate\b',
                 r'\bdone\b', r'\bfinished\b', r'\bcomplete\b', r'\bready\b'
+=======
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             ]
         }
         
@@ -126,8 +133,12 @@ class SmartSummarizerV3:
         self.urgency_indicators = {
             'high': [
                 r'\burgent\b', r'\basap\b', r'\bemergency\b', r'\bcritical\b',
+<<<<<<< HEAD
                 r'\bimmediately\b', r'\bright now\b', r'\bdeadline today\b',
                 r'\bnow\b', r'\btoday\b', r'\bpls respond\b'
+=======
+                r'\bimmediately\b', r'\bright now\b', r'\bdeadline today\b'
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             ],
             'medium': [
                 r'\bsoon\b', r'\bquickly\b', r'\bpriority\b', r'\bimportant\b',
@@ -229,12 +240,20 @@ class SmartSummarizerV3:
         
         self._save_context()
     
+<<<<<<< HEAD
     def _classify_intent(self, text: str, context_messages: List[Dict] = None) -> tuple:
         """Classify the intent of the message with context awareness."""
         text_lower = text.lower()
         intent_scores = {}
         
         # Base intent scoring
+=======
+    def _classify_intent(self, text: str) -> tuple:
+        """Classify the intent of the message."""
+        text_lower = text.lower()
+        intent_scores = {}
+        
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         for intent, patterns in self.intent_patterns.items():
             score = 0
             for pattern in patterns:
@@ -244,6 +263,7 @@ class SmartSummarizerV3:
             if score > 0:
                 intent_scores[intent] = score
         
+<<<<<<< HEAD
         # Context-aware intent adjustment
         if context_messages:
             # Check for follow-up patterns
@@ -261,6 +281,8 @@ class SmartSummarizerV3:
                         intent_scores['follow_up'] = intent_scores.get('follow_up', 0) + 2
                         intent_scores['check_progress'] = intent_scores.get('check_progress', 0) + 1
         
+=======
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         if intent_scores:
             best_intent = max(intent_scores.keys(), key=lambda k: intent_scores[k])
             max_score = intent_scores[best_intent]
@@ -269,8 +291,13 @@ class SmartSummarizerV3:
         
         return 'informational', 0.3  # Default intent
     
+<<<<<<< HEAD
     def _analyze_urgency(self, text: str, context_messages: List[Dict] = None) -> tuple:
         """Analyze the urgency level of the message with context awareness."""
+=======
+    def _analyze_urgency(self, text: str) -> tuple:
+        """Analyze the urgency level of the message."""
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         text_lower = text.lower()
         urgency_scores = {'high': 0, 'medium': 0, 'low': 0}
         
@@ -279,6 +306,7 @@ class SmartSummarizerV3:
                 matches = len(re.findall(pattern, text_lower))
                 urgency_scores[level] += matches
         
+<<<<<<< HEAD
         # Context-aware urgency adjustment
         if context_messages:
             # Check for escalating urgency
@@ -291,6 +319,8 @@ class SmartSummarizerV3:
             if current_urgency_count > previous_urgency_count:
                 urgency_scores['high'] += 1  # Escalating urgency
         
+=======
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         # Determine urgency level
         if urgency_scores['high'] > 0:
             return 'high', min(1.0, urgency_scores['high'] / 2.0)
@@ -315,17 +345,30 @@ class SmartSummarizerV3:
             return insights
         
         current_text = current_message.get('message_text', '').lower()
+<<<<<<< HEAD
+=======
+        user_id = current_message.get('user_id', '')
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         
         # Look for conversation patterns
         recent_messages = context_messages[-3:] if len(context_messages) >= 3 else context_messages
         
         # Check for follow-up patterns
+<<<<<<< HEAD
         follow_up_keywords = ['update', 'status', 'any news', 'heard back', 'follow up', 'did.*get done']
         if any(re.search(keyword, current_text) for keyword in follow_up_keywords):
             insights.append("This appears to be a follow-up to previous conversation")
         
         # Check for escalating urgency
         previous_texts = [msg.get('message_text', '').lower() for msg in recent_messages]
+=======
+        follow_up_keywords = ['update', 'status', 'any news', 'heard back', 'follow up']
+        if any(keyword in current_text for keyword in follow_up_keywords):
+            insights.append("This appears to be a follow-up to previous conversation")
+        
+        # Check for escalating urgency
+        previous_texts = [msg['message'].get('message_text', '').lower() for msg in recent_messages]
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         urgency_words = ['urgent', 'asap', 'immediately', 'critical', 'deadline']
         
         current_urgency = sum(1 for word in urgency_words if word in current_text)
@@ -336,7 +379,11 @@ class SmartSummarizerV3:
         
         # Check for topic continuity
         if recent_messages:
+<<<<<<< HEAD
             last_message_text = recent_messages[-1].get('message_text', '').lower()
+=======
+            last_message_text = recent_messages[-1]['message'].get('message_text', '').lower()
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             
             # Simple keyword overlap check
             current_words = set(re.findall(r'\b\w+\b', current_text))
@@ -375,6 +422,7 @@ class SmartSummarizerV3:
         # Take the first sentence as base summary
         base_summary = sentences[0]
         
+<<<<<<< HEAD
         # Add context-aware prefixes
         if context_insights:
             if "follow-up" in context_insights[0].lower():
@@ -387,6 +435,12 @@ class SmartSummarizerV3:
             base_summary = "User is checking progress on " + base_summary.lower()
         elif intent == 'follow_up':
             base_summary = "User is following up on " + base_summary.lower()
+=======
+        # Add context if available
+        if context_insights:
+            context_prefix = "Follow-up: " if "follow-up" in context_insights[0].lower() else ""
+            base_summary = context_prefix + base_summary
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         
         # Add intent/urgency indicators based on platform
         if config['emoji_friendly']:
@@ -396,9 +450,13 @@ class SmartSummarizerV3:
                 'urgent': '🚨',
                 'appreciation': '🙏',
                 'complaint': '⚠️',
+<<<<<<< HEAD
                 'social': '👋',
                 'follow_up': '🔄',
                 'check_progress': '📊'
+=======
+                'social': '👋'
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             }
             
             if intent in emoji_map:
@@ -409,7 +467,11 @@ class SmartSummarizerV3:
             base_summary = base_summary[:max_length-3] + '...'
         
         # Platform-specific adjustments
+<<<<<<< HEAD
         if config['casual_tone'] and platform in ['whatsapp', 'slack', 'discord', 'instagram']:
+=======
+        if config['casual_tone'] and platform in ['whatsapp', 'slack', 'discord']:
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             base_summary = base_summary.replace('Please', 'Pls').replace('you', 'u')
         
         return base_summary
@@ -431,7 +493,11 @@ class SmartSummarizerV3:
         
         return reasoning
     
+<<<<<<< HEAD
     def _update_stats(self, user_id: str, platform: str, intent: str, urgency: str):
+=======
+    def _update_stats(self, user_id: str, platform: str):
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         """Update processing statistics."""
         self.stats['processed'] += 1
         self.stats['unique_users'].add(user_id)
@@ -439,6 +505,7 @@ class SmartSummarizerV3:
         if platform not in self.stats['platforms']:
             self.stats['platforms'][platform] = 0
         self.stats['platforms'][platform] += 1
+<<<<<<< HEAD
         
         if intent not in self.stats['intents']:
             self.stats['intents'][intent] = 0
@@ -447,6 +514,8 @@ class SmartSummarizerV3:
         if urgency not in self.stats['urgency_levels']:
             self.stats['urgency_levels'][urgency] = 0
         self.stats['urgency_levels'][urgency] += 1
+=======
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
     
     def summarize(self, message_data: Dict, use_context: bool = True) -> Dict:
         """
@@ -476,6 +545,7 @@ class SmartSummarizerV3:
                 if context_used:
                     self.stats['context_used'] += 1
             
+<<<<<<< HEAD
             # Analyze message with context
             intent, intent_confidence = self._classify_intent(message_text, context)
             urgency, urgency_confidence = self._analyze_urgency(message_text, context)
@@ -488,11 +558,20 @@ class SmartSummarizerV3:
             
             # Determine message type
             message_type = self._determine_message_type(intent, urgency, context_insights)
+=======
+            # Analyze message
+            intent, intent_confidence = self._classify_intent(message_text)
+            urgency, urgency_confidence = self._analyze_urgency(message_text)
+            
+            # Generate summary
+            summary = self._generate_summary(message_text, platform, intent, urgency, context)
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
             
             # Calculate overall confidence
             overall_confidence = (intent_confidence + urgency_confidence) / 2
             
             # Generate reasoning
+<<<<<<< HEAD
             reasoning = self._generate_reasoning(intent, urgency, context_used, context_insights, platform)
             
             # Store message in context for future use
@@ -504,6 +583,12 @@ class SmartSummarizerV3:
             result = {
                 'summary': summary,
                 'type': message_type,
+=======
+            reasoning = self._generate_reasoning(intent, urgency, context_used, context, platform)
+            
+            result = {
+                'summary': summary,
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                 'intent': intent,
                 'urgency': urgency,
                 'confidence': overall_confidence,
@@ -515,8 +600,12 @@ class SmartSummarizerV3:
                     'urgency_confidence': urgency_confidence,
                     'context_messages_used': len(context),
                     'platform': platform,
+<<<<<<< HEAD
                     'timestamp': timestamp,
                     'context_insights': context_insights
+=======
+                    'timestamp': timestamp
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                 }
             }
             
@@ -527,7 +616,10 @@ class SmartSummarizerV3:
             logger.error(f"Error summarizing message: {e}")
             return {
                 'summary': 'Error processing message',
+<<<<<<< HEAD
                 'type': 'error',
+=======
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
                 'intent': 'unknown',
                 'urgency': 'low',
                 'confidence': 0.0,
@@ -537,6 +629,7 @@ class SmartSummarizerV3:
                 'metadata': {}
             }
     
+<<<<<<< HEAD
     def _determine_message_type(self, intent: str, urgency: str, context_insights: List[str]) -> str:
         """Determine message type based on intent, urgency, and context."""
         if urgency == 'high':
@@ -558,6 +651,8 @@ class SmartSummarizerV3:
         else:
             return 'general'
     
+=======
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
     def batch_summarize(self, messages: List[Dict], use_context: bool = True) -> List[Dict]:
         """
         Summarize multiple messages in batch.
@@ -570,18 +665,48 @@ class SmartSummarizerV3:
             List of summary results
         """
         results = []
+<<<<<<< HEAD
         
         for i, message in enumerate(messages):
             result = self.summarize(message, use_context)
             results.append(result)
+=======
+        context_store = {}  # Store context by user_id
+        
+        for i, message in enumerate(messages):
+            user_id = message.get('user_id', 'unknown')
+            
+            # Get context messages for this user
+            context_messages = context_store.get(user_id, [])
+            
+            # Summarize with context
+            result = self.summarize(message, use_context)
+            results.append(result)
+            
+            # Update context store
+            if user_id not in context_store:
+                context_store[user_id] = []
+            
+            context_store[user_id].append({
+                'message': message,
+                'result': result
+            })
+            
+            # Keep only recent context
+            if len(context_store[user_id]) > self.max_context_messages:
+                context_store[user_id] = context_store[user_id][-self.max_context_messages:]
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         
         logger.info(f"Batch summarized {len(messages)} messages")
         return results
     
+<<<<<<< HEAD
     def get_user_context(self, user_id: str, platform: str) -> List[Dict]:
         """Get conversation context for a specific user and platform."""
         return self._extract_context(user_id, platform)
     
+=======
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
     def get_stats(self) -> Dict:
         """Get processing statistics."""
         stats = self.stats.copy()
@@ -620,6 +745,27 @@ class SmartSummarizerV3:
         if 'platform_configs' in config:
             self.platform_configs.update(config['platform_configs'])
 
+<<<<<<< HEAD
+=======
+    def _create_error_result(self, message: Dict, error: str) -> Dict:
+        """Create error result when processing fails."""
+        return {
+            'summary': f"Error processing message: {error}",
+            'intent': 'unknown',
+            'urgency': 'low',
+            'confidence': 0.0,
+            'context_used': False,
+            'platform_optimized': False,
+            'reasoning': [f"Processing failed: {error}"],
+            'metadata': {
+                'user_id': message.get('user_id', 'unknown'),
+                'platform': message.get('platform', 'unknown'),
+                'timestamp': message.get('timestamp', datetime.now().isoformat()),
+                'error': error
+            }
+        }
+
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
 
 def summarize_message(message_text: str, platform: str = 'email', user_id: str = 'default') -> Dict:
     """
@@ -650,11 +796,16 @@ if __name__ == "__main__":
     # Initialize summarizer
     summarizer = SmartSummarizerV3()
     
+<<<<<<< HEAD
     # Test messages with context scenario
+=======
+    # Test messages
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
     test_messages = [
         {
             'user_id': 'alice_work',
             'platform': 'email',
+<<<<<<< HEAD
             'message_text': 'I will send the quarterly report tonight after the meeting.',
             'timestamp': '2025-08-07T09:00:00Z'
         },
@@ -675,6 +826,22 @@ if __name__ == "__main__":
             'platform': 'instagram',
             'message_text': 'love ur latest post! 😍 where did u get that dress?',
             'timestamp': '2025-08-07T11:15:00Z'
+=======
+            'message_text': 'Hi team, please review the quarterly budget proposal attached. Need feedback by Friday for the board meeting.',
+            'timestamp': '2025-08-07T09:00:00Z'
+        },
+        {
+            'user_id': 'bob_friend',
+            'platform': 'whatsapp',
+            'message_text': 'Hey! What time is the party tonight? Should I bring anything?',
+            'timestamp': '2025-08-07T14:30:00Z'
+        },
+        {
+            'user_id': 'alice_work',
+            'platform': 'email',
+            'message_text': 'Following up on the budget proposal - any updates? The board meeting is tomorrow!',
+            'timestamp': '2025-08-07T16:45:00Z'
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         }
     ]
     
@@ -683,10 +850,17 @@ if __name__ == "__main__":
     
     # Display results
     for i, (message, result) in enumerate(zip(test_messages, results)):
+<<<<<<< HEAD
         print(f"\n--- Message {i+1} ({message['platform']}) ---")
         print(f"Original: {message['message_text']}")
         print(f"Summary: {result['summary']}")
         print(f"Type: {result['type']} | Intent: {result['intent']} | Urgency: {result['urgency']}")
+=======
+        print(f"\n--- Message {i+1} ---")
+        print(f"Original: {message['message_text']}")
+        print(f"Summary: {result['summary']}")
+        print(f"Intent: {result['intent']} | Urgency: {result['urgency']}")
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
         print(f"Confidence: {result['confidence']:.2f}")
         print(f"Context Used: {result['context_used']}")
         print("Reasoning:")
@@ -699,5 +873,8 @@ if __name__ == "__main__":
     print(f"Processed: {stats['processed']}")
     print(f"Context Usage Rate: {stats['context_usage_rate']:.1%}")
     print(f"Platforms: {stats['platforms']}")
+<<<<<<< HEAD
     print(f"Intents: {stats['intents']}")
     print(f"Urgency Levels: {stats['urgency_levels']}")
+=======
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03

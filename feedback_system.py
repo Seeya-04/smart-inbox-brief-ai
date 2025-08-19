@@ -528,4 +528,8 @@ if __name__ == "__main__":
     print(f"📝 Enhanced summary: {result['summary']}")
     print(f"🔄 Feedback ready: {result['feedback_ready']}")
     
+<<<<<<< HEAD
     print("✅ Feedback System tests completed!")
+=======
+    print("✅ Feedback System tests completed!")
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03

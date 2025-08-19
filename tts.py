@@ -1,8 +1,11 @@
 import pyttsx3
 import threading
 import time
+<<<<<<< HEAD
 import platform
 import os
+=======
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
 
 class TTSEngine:
     """Text-to-Speech engine with error handling and configuration options."""
@@ -265,4 +268,12 @@ def test_tts():
 
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     test_tts()
+=======
+<<<<<<< HEAD
+    test_tts()
+=======
+    test_tts()
+>>>>>>> 9feb104c2eb5dd41ae26edcdb0da84c87c09344e
+>>>>>>> 68a78cdd1bc9e2bb6e6f28be3fc2b1e52df3cc03
