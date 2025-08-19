@@ -24,28 +24,7 @@ Text-to-Speech (TTS): Converts important emails into speech for accessibility.
 
 Visual Analytics: Graphical insights into email trends, priorities, and feedback.
 
-📂 Project Structure
-smart-inbox-ai2/
-│── briefing.py              # Generates daily/weekly email briefs
-│── context_loader.py        # Loads and manages email context
-│── credentials_manager.py   # Handles secure email login credentials
-│── dashboard.py             # Full-featured Streamlit dashboard
-│── demo_streamlit_app.py    # Lightweight demo app for Smart Brief
-│── email_agent.py           # Core email processing agent
-│── email_reader.py          # Reads and preprocesses emails
-│── email_summarizer.py      # Summarizes emails
-│── feedback_system.py       # Manages user feedback
-│── priority_model.py        # Priority scoring model with reinforcement learning
-│── sentiment.py             # Sentiment analysis
-│── smart_metrics.py         # Metrics and analytics
-│── smart_suggestions.py     # Suggests tags/actions
-│── smart_summarizer_v3.py   # Advanced summarizer
-│── tts.py                   # Text-to-Speech engine
-│── visualizations.py        # Generates insights & plots
-│── main.py                  # Main entry point
-│── requirements.txt         # Python dependencies
-│── README.md                # Project documentation
-│── *.json / *.csv           # Context, history, feedback storage
+
 
 ⚙️ Installation
 
@@ -54,29 +33,19 @@ Clone this repository:
 git clone https://github.com/yourusername/smart-inbox-ai.git
 cd smart-inbox-ai2
 
-
-Install dependencies:
-
-pip install -r requirements.txt
-
+Install dependencies:  pip install -r requirements.txt
 
 Setup email credentials (via credentials_manager.py).
 
+
 ▶️ Usage
 
-Run the full dashboard:
+Run the full dashboard:    streamlit run dashboard.py
 
-streamlit run dashboard.py
+Run the Smart Brief demo app:   streamlit run demo_streamlit_app.py
 
+Run the core agent:   python main.py
 
-Run the Smart Brief demo app:
-
-streamlit run demo_streamlit_app.py
-
-
-Run the core agent:
-
-python main.py
 
 📊 Example Output
 
